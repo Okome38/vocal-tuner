@@ -130,136 +130,7 @@ main{flex:1;min-height:0;display:flex;gap:8px}
 </main>
 
 <script>
-// ============================================================================
-// AI Vocal Tuner - Pure Client-Side Single Page Application (GitHub Pages Ready)
-// Model C v3 Hybrid (Decision Tree 75% + Logistic Regression 25%)
-// High-Precision True YIN Pitch Detection + Pure JS DSP Feature Extraction
-// ============================================================================
-
-const MODEL_C_PARAMS = {
-  "version": "v3_hybrid",
-  "tree_weight": 0.75,
-  "lr_weight": 0.25,
-  "feat_names": [
-    "alpha_ratio",
-    "hammarberg_index",
-    "cpp",
-    "h1h2",
-    "sf_ratio",
-    "h1_a3"
-  ],
-  "log_features": [
-    "alpha_ratio",
-    "sf_ratio"
-  ],
-  "m_ref": 63.77796465466897,
-  "med_m": 60.88885686104644,
-  "mean": [
-    -0.09843514269924729,
-    19.225669815279474,
-    0.3409735006507904,
-    4.4789645238014,
-    -2.6619930639434797,
-    25.720562494892828
-  ],
-  "std": [
-    1.1322533769578453,
-    12.032656849241745,
-    0.19103063634422093,
-    13.849860725991665,
-    0.8883382370174473,
-    18.782611263242117
-  ],
-  "gamma": [
-    0.050278456291324096,
-    -0.2718410437159914,
-    0.007735597184890703,
-    -0.22941225932812934,
-    0.006850249057193781,
-    -0.3875512644041589
-  ],
-  "tree": {
-    "children_left": [
-      1, 2, 3, -1, -1, 6, 7, -1, -1, 10, -1, -1, 13, 14, 15, -1, -1, 18, -1, -1, 21, 22, -1, -1, 25, -1, -1
-    ],
-    "children_right": [
-      12, 5, 4, -1, -1, 9, 8, -1, -1, 11, -1, -1, 20, 17, 16, -1, -1, 19, -1, -1, 24, 23, -1, -1, 26, -1, -1
-    ],
-    "feature": [
-      2, 0, 1, -2, -2, 2, 2, -2, -2, 1, -2, -2, 1, 0, 2, -2, -2, 2, -2, -2, 0, 2, -2, -2, 0, -2, -2
-    ],
-    "threshold": [
-      -0.09322214871644974,
-      -0.12642277777194977,
-      0.6558663845062256,
-      -2,
-      -2,
-      0.5404179394245148,
-      0.22699256241321564,
-      -2,
-      -2,
-      -0.03848142363131046,
-      -2,
-      -2,
-      0.016399994492530823,
-      0.5658661723136902,
-      -0.18731366097927094,
-      -2,
-      -2,
-      -0.19830575585365295,
-      -2,
-      -2,
-      -0.03373516537249088,
-      -0.22019777446985245,
-      -2,
-      -2,
-      0.25880467891693115,
-      -2,
-      -2
-    ],
-    "value": [
-      [0.08986928, 0.49019608, 0.41993464],
-      [0.03225806, 0.20967742, 0.75806452],
-      [0.0, 0.08333333, 0.91666667],
-      [0.0, 0.0, 1.0],
-      [0.0, 0.2, 0.8],
-      [0.11111111, 0.5, 0.38888889],
-      [0.0, 0.83333333, 0.16666667],
-      [0.0, 1.0, 0.0],
-      [0.0, 0.66666667, 0.33333333],
-      [0.16666667, 0.33333333, 0.5],
-      [0.0, 1.0, 0.0],
-      [0.2, 0.2, 0.6],
-      [0.27857143, 0.67857143, 0.04285714],
-      [0.48979592, 0.51020408, 0.0],
-      [0.6, 0.4, 0.0],
-      [0.85714286, 0.14285714, 0.0],
-      [0.375, 0.625, 0.0],
-      [0.35714286, 0.64285714, 0.0],
-      [0.55555556, 0.44444444, 0.0],
-      [0.0, 1.0, 0.0],
-      [0.16483516, 0.76923077, 0.06593407],
-      [0.03703704, 0.90740741, 0.05555556],
-      [0.08333333, 0.75, 0.16666667],
-      [0.02380952, 0.95238095, 0.02380952],
-      [0.35135135, 0.56756757, 0.08108108],
-      [0.5, 0.44444444, 0.05555556],
-      [0.21052632, 0.68421053, 0.10526316]
-    ]
-  },
-  "lr": {
-    "coef": [
-      [0.7259640989396657, -1.060136979603098, -1.2185289947938367],
-      [-0.1087405234190821, 0.6758603673756209, 0.6384462194165502],
-      [-0.6172235755205835, 0.3842766122274768, 0.5800827753772863]
-    ],
-    "intercept": [
-      -1.0064185916090405,
-      0.610106133855428,
-      0.39631245775373874
-    ]
-  }
-};
+// Model C / Praat pitch / feature extraction now run in the Python backend (server.py).
 
 const NOTE_STRINGS = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
 
@@ -278,7 +149,7 @@ function midiToNoteInfo(midi) {
 }
 
 // ==========================================
-// Fast Synchronous WAV Decoder
+// Fast Synchronous WAV Decoder (Bypasses decodeAudioData blocks)
 // ==========================================
 function decodeWavSync(arrayBuffer, ctx) {
   try {
@@ -323,394 +194,176 @@ function decodeWavSync(arrayBuffer, ctx) {
   }
 }
 
-async function decodeAudioDataSmart(ctx, arrayBuffer) {
-  const syncBuf = decodeWavSync(arrayBuffer, ctx);
-  if (syncBuf) return syncBuf;
-  return new Promise((resolve, reject) => {
-    ctx.decodeAudioData(
-      arrayBuffer.slice(0),
-      (buf) => resolve(buf),
-      (err) => {
-        ctx.decodeAudioData(arrayBuffer).then(resolve).catch(reject);
-      }
-    );
+// ==========================================
+// Backend link: Python server (Praat + librosa + Model C)
+//   ブラウザは 22,050Hz の PCM を送るだけ。F0・特徴量・声区判定はすべてサーバー側
+//   (compare_models_v10_pc2d.py と同一の関数) で計算される。
+// ==========================================
+const TARGET_SR = 22050;
+const SEG_STEP = 0.15;          // 正解スクリプトの STEP
+const LIVE_DELAY = 0.60;        // ライブ表示の遅延(秒): 0.3s窓 + 解析時間 + 余裕
+const WS_URL = (location.protocol === "http:" || location.protocol === "https:")
+  ? `${location.protocol === "https:" ? "wss" : "ws"}://${location.host}/ws`
+  : "ws://localhost:8000/ws";
+
+let ws = null, wsOpenPromise = null;
+let sessionId = 0, sessionMode = null, sessionStartCtxTime = 0;
+let segResults = [];            // 区間 index -> サーバー応答
+let pitchTrack = [];            // [[t(sec), f0(Hz; 0=無声)], ...] 時刻昇順
+let liveTap = null;
+
+const WORKLET_SRC = `
+class PCMTap extends AudioWorkletProcessor {
+  constructor() { super(); this.buf = new Float32Array(2048); this.n = 0; }
+  process(inputs) {
+    const ch = inputs[0] && inputs[0][0];
+    if (!ch) return true;
+    for (let i = 0; i < ch.length; i++) {
+      this.buf[this.n++] = ch[i];
+      if (this.n === this.buf.length) { this.port.postMessage(this.buf.slice(0)); this.n = 0; }
+    }
+    return true;
+  }
+}
+registerProcessor("pcm-tap", PCMTap);
+`;
+
+function newAudioContext() {
+  const AC = window.AudioContext || window.webkitAudioContext;
+  try { return new AC({ sampleRate: TARGET_SR }); } catch (e) { return new AC(); }
+}
+
+function ensureWs() {
+  if (ws && ws.readyState === WebSocket.OPEN) return Promise.resolve(ws);
+  if (wsOpenPromise) return wsOpenPromise;
+  wsOpenPromise = new Promise((resolve, reject) => {
+    const sock = new WebSocket(WS_URL);
+    sock.binaryType = "arraybuffer";
+    sock.onopen = () => { ws = sock; wsOpenPromise = null; resolve(sock); };
+    sock.onerror = () => {
+      if (ws !== sock) { wsOpenPromise = null; reject(new Error(`サーバーに接続できません (${WS_URL})。python server.py を起動してください。`)); }
+    };
+    sock.onclose = () => { if (ws === sock) ws = null; };
+    sock.onmessage = onServerMessage;
   });
+  return wsOpenPromise;
 }
 
-// ==========================================
-// Authentic DSP Feature Extraction Engine
-// ==========================================
-
-function fft2048(real, imag) {
-  const n = 2048;
-  let j = 0;
-  for (let i = 0; i < n - 1; i++) {
-    if (i < j) {
-      const tr = real[i]; real[i] = real[j]; real[j] = tr;
-      const ti = imag[i]; imag[i] = imag[j]; imag[j] = ti;
+function onServerMessage(ev) {
+  let d;
+  try { d = JSON.parse(ev.data); } catch (e) { return; }
+  if (d.type === "seg") {
+    if (d.sid !== sessionId) return;               // 古いセッションの遅延応答は捨てる
+    segResults[d.i] = d;
+    for (const p of d.pitch) pitchTrack.push(p);
+    if (sessionMode === "live") {                  // ライブは古いデータを間引く
+      delete segResults[d.i - 300];
+      if (pitchTrack.length > 3000) pitchTrack.splice(0, pitchTrack.length - 2000);
     }
-    let k = 1024;
-    while (k <= j) {
-      j -= k;
-      k >>= 1;
-    }
-    j += k;
-  }
-  for (let len = 2; len <= n; len <<= 1) {
-    const half = len >> 1;
-    const ang = -2 * Math.PI / len;
-    const wStepR = Math.cos(ang);
-    const wStepI = Math.sin(ang);
-    for (let i = 0; i < n; i += len) {
-      let wR = 1.0, wI = 0.0;
-      for (let k = 0; k < half; k++) {
-        const uR = real[i + k];
-        const uI = imag[i + k];
-        const vR = real[i + k + half] * wR - imag[i + k + half] * wI;
-        const vI = real[i + k + half] * wI + imag[i + k + half] * wR;
-        real[i + k] = uR + vR;
-        imag[i + k] = uI + vI;
-        real[i + k + half] = uR - vR;
-        imag[i + k + half] = uI - vI;
-        const nextWR = wR * wStepR - wI * wStepI;
-        wI = wR * wStepI + wI * wStepR;
-        wR = nextWR;
-      }
-    }
+  } else if (d.type === "error") {
+    noteSub.textContent = "サーバーエラー: " + d.message;
   }
 }
 
-function ifft2048(real, imag) {
-  const n = 2048;
-  for (let i = 0; i < n; i++) imag[i] = -imag[i];
-  fft2048(real, imag);
-  for (let i = 0; i < n; i++) {
-    real[i] /= n;
-    imag[i] = -imag[i] / n;
-  }
+async function startSession(mode, gain, silenceRms) {
+  const sock = await ensureWs();
+  sessionId++;
+  sessionMode = mode;
+  segResults = [];
+  pitchTrack = [];
+  trajectoryHistory = [];
+  sock.send(JSON.stringify({ type: "start", sid: sessionId, mode, sr: TARGET_SR, gain, silence_rms: silenceRms }));
+  return sock;
 }
 
-function resampleTo22050(inputData, origSr) {
-  if (origSr === 22050 && inputData.length === 6615) return inputData;
-  const targetSamples = 6615;
-  const out = new Float32Array(targetSamples);
-  const inLen = inputData.length;
-  if (inLen === 0) return out;
-  const ratio = (inLen - 1) / (targetSamples - 1);
-  for (let i = 0; i < targetSamples; i++) {
-    const origPos = i * ratio;
-    const idx0 = Math.floor(origPos);
-    const idx1 = Math.min(idx0 + 1, inLen - 1);
-    const frac = origPos - idx0;
-    out[i] = inputData[idx0] * (1.0 - frac) + inputData[idx1] * frac;
+function stopSession() {
+  sessionMode = null;
+  sessionId++;
+  if (ws && ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify({ type: "stop" }));
+}
+
+// AudioBuffer -> 22,050Hz モノラル Float32Array (librosa.load(sr=22050, mono=True) と同等)
+async function toMono22k(audioBuffer) {
+  let src = audioBuffer;
+  if (audioBuffer.sampleRate !== TARGET_SR) {
+    const len = Math.ceil(audioBuffer.length * TARGET_SR / audioBuffer.sampleRate);
+    const off = new OfflineAudioContext(audioBuffer.numberOfChannels, len, TARGET_SR);
+    const s = off.createBufferSource();
+    s.buffer = audioBuffer; s.connect(off.destination); s.start();
+    src = await off.startRendering();
+  }
+  const out = new Float32Array(src.length);
+  const nch = src.numberOfChannels;
+  for (let c = 0; c < nch; c++) {
+    const d = src.getChannelData(c);
+    for (let i = 0; i < out.length; i++) out[i] += d[i] / nch;
   }
   return out;
 }
 
-const HANN_WINDOW_2048 = new Float32Array(2048);
-for (let i = 0; i < 2048; i++) {
-  HANN_WINDOW_2048[i] = 0.5 * (1.0 - Math.cos(2.0 * Math.PI * i / 2047.0));
+// ファイル/デモ: 全体を送信し、先頭の数区間が返るまで待つ (再生開始前のプリロール)
+async function beginFileAnalysis(audioBuffer) {
+  const y = await toMono22k(audioBuffer);
+  let ss = 0;
+  for (let i = 0; i < y.length; i++) ss += y[i] * y[i];
+  const rms = Math.sqrt(ss / Math.max(1, y.length));
+  const gain = rms > 1e-6 ? 0.1 / rms : 1.0;       // load_audio(): 全体 RMS を 0.1 に正規化
+  const sock = await startSession("file", gain, 0.01);
+  const sid = sessionId;
+  (async () => {
+    for (let k = 0; k < y.length; k += 8192) {
+      if (sid !== sessionId || sock.readyState !== WebSocket.OPEN) return;
+      while (sock.bufferedAmount > (1 << 20)) await new Promise(r => setTimeout(r, 20));
+      sock.send(y.slice(k, k + 8192).buffer);
+    }
+    if (sid === sessionId && sock.readyState === WebSocket.OPEN) sock.send(JSON.stringify({ type: "end" }));
+  })();
+  const t0 = performance.now();
+  while (performance.now() - t0 < 5000) {
+    if (sid !== sessionId) return false;
+    let n = 0; for (let i = 0; i < 4; i++) if (segResults[i]) n++;
+    if (n >= 3) return true;
+    await new Promise(r => setTimeout(r, 30));
+  }
+  throw new Error("サーバーからの解析結果が来ません。server.py のログを確認してください。");
 }
 
-function extractAuthenticFeatures(y_seg, sr, f0) {
-  const n_fft = 2048;
-  const hop_length = 512;
-  const pad_width = 1024;
-  const inLen = y_seg.length;
-  
-  const padded_len = inLen + 2 * pad_width;
-  const y_padded = new Float32Array(padded_len);
-  for (let i = 0; i < pad_width; i++) {
-    y_padded[i] = y_seg[Math.min(inLen - 1, pad_width - i)];
-    y_padded[padded_len - 1 - i] = y_seg[Math.max(0, inLen - 1 - (pad_width - i))];
-  }
-  for (let i = 0; i < inLen; i++) {
-    y_padded[pad_width + i] = y_seg[i];
-  }
-  
-  const num_frames = Math.floor((padded_len - n_fft) / hop_length) + 1;
-  const num_bins = 1025;
-  const binHz = sr / n_fft;
-  
-  const mag_spec = [];
-  const ceps_frames = [];
-  const rBuf = new Float32Array(n_fft);
-  const iBuf = new Float32Array(n_fft);
-  
-  for (let f = 0; f < num_frames; f++) {
-    const start = f * hop_length;
-    for (let i = 0; i < n_fft; i++) {
-      rBuf[i] = y_padded[start + i] * HANN_WINDOW_2048[i];
-      iBuf[i] = 0.0;
-    }
-    fft2048(rBuf, iBuf);
-    
-    const mag = new Float32Array(num_bins);
-    const log_pwr = new Float32Array(n_fft);
-    for (let k = 0; k < num_bins; k++) {
-      const pwr = rBuf[k] * rBuf[k] + iBuf[k] * iBuf[k];
-      mag[k] = Math.sqrt(pwr);
-      const lp = Math.log(pwr + 1e-10);
-      log_pwr[k] = lp;
-      if (k > 0 && k < 1024) {
-        log_pwr[2048 - k] = lp;
-      }
-    }
-    mag_spec.push(mag);
-    
-    const cReal = new Float32Array(log_pwr);
-    const cImag = new Float32Array(n_fft);
-    ifft2048(cReal, cImag);
-    ceps_frames.push(cReal);
-  }
-  
-  // 1. alpha_ratio
-  let lowEnergy = 0.0, highEnergy = 0.0;
-  for (let f = 0; f < num_frames; f++) {
-    const mag = mag_spec[f];
-    for (let k = 0; k < num_bins; k++) {
-      const freq = k * binHz;
-      if (freq >= 50.0 && freq <= 1000.0) lowEnergy += mag[k];
-      else if (freq > 1000.0 && freq <= 5000.0) highEnergy += mag[k];
-    }
-  }
-  const alpha_ratio = lowEnergy > 0 ? (highEnergy / lowEnergy) : 0.1;
-  
-  // 2. hammarberg_index
-  let midMax = 1e-10, highMax = 1e-10;
-  for (let f = 0; f < num_frames; f++) {
-    const mag = mag_spec[f];
-    for (let k = 0; k < num_bins; k++) {
-      const freq = k * binHz;
-      if (freq <= 2000.0) {
-        if (mag[k] > midMax) midMax = mag[k];
-      } else if (freq <= 5000.0) {
-        if (mag[k] > highMax) highMax = mag[k];
-      }
-    }
-  }
-  const hammarberg_index = 20.0 * Math.log10(midMax / highMax);
-  
-  // 3. sf_ratio
-  let sfEnergy = 0.0, totEnergy = 0.0;
-  for (let f = 0; f < num_frames; f++) {
-    const mag = mag_spec[f];
-    for (let k = 0; k < num_bins; k++) {
-      const freq = k * binHz;
-      totEnergy += mag[k];
-      if (freq >= 2500.0 && freq <= 3500.0) sfEnergy += mag[k];
-    }
-  }
-  const sf_ratio = totEnergy > 0 ? (sfEnergy / totEnergy) : 0.08;
-  
-  // 4. CPP
-  const q_min = Math.floor(sr / 600.0);
-  const q_max = Math.min(Math.floor(sr / 75.0), 1024);
-  const n_q = q_max - q_min + 1;
-  
-  let sum_q = 0.0, sum_q2 = 0.0;
-  for (let q = q_min; q <= q_max; q++) {
-    sum_q += q;
-    sum_q2 += q * q;
-  }
-  const denom_reg = n_q * sum_q2 - sum_q * sum_q;
-  
-  let cppSum = 0.0;
-  for (let f = 0; f < num_frames; f++) {
-    const c = ceps_frames[f];
-    let sum_y = 0.0, sum_qy = 0.0;
-    let maxVal = -1e9;
-    let maxQ = q_min;
-    
-    for (let q = q_min; q <= q_max; q++) {
-      const val = c[q];
-      sum_y += val;
-      sum_qy += q * val;
-      if (val > maxVal) {
-        maxVal = val;
-        maxQ = q;
-      }
-    }
-    const slope = denom_reg > 1e-9 ? (n_q * sum_qy - sum_q * sum_y) / denom_reg : 0.0;
-    const intercept = (sum_y - slope * sum_q) / n_q;
-    const baseline = intercept + slope * maxQ;
-    const prom = Math.max(0.0, maxVal - baseline);
-    cppSum += prom;
-  }
-  const cpp = num_frames > 0 ? (cppSum / num_frames) : 0.3;
-  
-  // 5. H1-H2 & H1-A3
-  const avg_mag = new Float32Array(num_bins);
-  for (let f = 0; f < num_frames; f++) {
-    const mag = mag_spec[f];
-    for (let k = 0; k < num_bins; k++) avg_mag[k] += mag[k];
-  }
-  for (let k = 0; k < num_bins; k++) avg_mag[k] /= num_frames;
-  
-  let h1 = -100.0, h2 = -100.0, a3 = -100.0;
-  if (f0 && f0 > 65.0) {
-    const h1_min = f0 * 0.85, h1_max = f0 * 1.15;
-    const h2_min = f0 * 2.0 * 0.85, h2_max = f0 * 2.0 * 1.15;
-    
-    for (let k = 0; k < num_bins; k++) {
-      const freq = k * binHz;
-      const db = 20.0 * Math.log10(avg_mag[k] + 1e-10);
-      if (freq >= h1_min && freq <= h1_max) {
-        if (db > h1) h1 = db;
-      }
-      if (freq >= h2_min && freq <= h2_max) {
-        if (db > h2) h2 = db;
-      }
-      if (freq >= 2500.0 && freq <= 3500.0) {
-        if (db > a3) a3 = db;
-      }
-    }
-  }
-  const h1h2 = (h1 > -100.0 && h2 > -100.0) ? (h1 - h2) : 4.5;
-  const h1_a3 = (h1 > -100.0 && a3 > -100.0) ? (h1 - a3) : 25.0;
-  
-  return {
-    alpha_ratio,
-    hammarberg_index,
-    cpp,
-    h1h2,
-    sf_ratio,
-    h1_a3
+// マイク: AudioWorklet で PCM を取り出してサーバーへ送る
+async function setupLiveTap(srcNode, sinkNode) {
+  if (!audioCtx.audioWorklet) throw new Error("AudioWorklet が使えません (localhost / HTTPS が必要)。");
+  const url = URL.createObjectURL(new Blob([WORKLET_SRC], { type: "application/javascript" }));
+  await audioCtx.audioWorklet.addModule(url);
+  URL.revokeObjectURL(url);
+  const tap = new AudioWorkletNode(audioCtx, "pcm-tap", { numberOfInputs: 1, numberOfOutputs: 1, outputChannelCount: [1] });
+  const sock = await startSession("live", 1.0, 0.007);
+  const sid = sessionId;
+  tap.port.onmessage = (e) => {
+    if (sid === sessionId && sock.readyState === WebSocket.OPEN && sock.bufferedAmount < (1 << 20)) sock.send(e.data.buffer);
   };
+  srcNode.connect(tap);
+  tap.connect(sinkNode);
+  sessionStartCtxTime = audioCtx.currentTime;
+  liveTap = tap;
 }
 
-// Model C Predictor Function (Tree 75% + LR 25%)
-function predictModelC(f0, feats) {
-  const p = MODEL_C_PARAMS;
-  const m = (f0 && f0 > 0) ? (12.0 * Math.log2(f0 / 440.0) + 69.0) : NaN;
-  const m_eff = isFinite(m) ? m : p.med_m;
-
-  const x = [
-    feats.alpha_ratio > 0 ? Math.log(feats.alpha_ratio) : -0.2,
-    feats.hammarberg_index,
-    feats.cpp,
-    feats.h1h2,
-    feats.sf_ratio > 0 ? Math.log(feats.sf_ratio) : -2.5,
-    feats.h1_a3
-  ];
-
-  const Z = [];
-  for (let j = 0; j < 6; j++) {
-    const x_res = x[j] - p.gamma[j] * (m_eff - p.m_ref);
-    Z.push((x_res - p.mean[j]) / p.std[j]);
-  }
-
-  const gci = (Z[2] - Z[3] - Z[5]) / Math.sqrt(3.0);
-  const rbi = (Z[0] - Z[1]) / Math.sqrt(2.0);
-  const m_rel = (m_eff - p.m_ref) / 12.0;
-  const z_in = [gci, rbi, m_rel];
-
-  const t = p.tree;
-  let node = 0;
-  while (t.children_left[node] !== -1) {
-    const feat = t.feature[node];
-    const th = t.threshold[node];
-    if (z_in[feat] <= th) {
-      node = t.children_left[node];
-    } else {
-      node = t.children_right[node];
-    }
-  }
-  const p_tree = t.value[node];
-
-  const lr = p.lr;
-  const logits = [0, 0, 0];
-  for (let c = 0; c < 3; c++) {
-    let sum = lr.intercept[c];
-    for (let k = 0; k < 3; k++) {
-      sum += lr.coef[c][k] * z_in[k];
-    }
-    logits[c] = sum;
-  }
-  const maxLogit = Math.max(...logits);
-  const expLogits = logits.map(l => Math.exp(l - maxLogit));
-  const sumExp = expLogits.reduce((a, b) => a + b, 0);
-  const p_lr = expLogits.map(e => e / sumExp);
-
-  const probs = [0, 1, 2].map(c => p.tree_weight * p_tree[c] + p.lr_weight * p_lr[c]);
-  return { probs, gci, rbi };
+function findSegment(idx) {
+  for (let k = 0; k < 6; k++) { const s = segResults[idx - k]; if (s) return s; }
+  return null;
 }
 
-// ==========================================
-// High-Precision True YIN Pitch Detection (No Decimation)
-// Used for Live Microphone Input
-// ==========================================
-function detectPitchTrueYIN(buffer, sampleRate) {
-  const threshold = 0.20;
-  const minF0 = 65.0;   // C2
-  const maxF0 = 1050.0; // C6
-  const minTau = Math.floor(sampleRate / maxF0);
-  const maxTau = Math.min(Math.floor(sampleRate / minF0), Math.floor(buffer.length / 2));
-  const W = buffer.length - maxTau;
-
-  if (W < 128) return { f0: 0, conf: 0 };
-
-  // 1. Difference function (Full resolution, NO DECIMATION)
-  const d = new Float32Array(maxTau + 1);
-  for (let tau = 1; tau <= maxTau; tau++) {
-    let sum = 0.0;
-    for (let j = 0; j < W; j++) {
-      const diff = buffer[j] - buffer[j + tau];
-      sum += diff * diff;
-    }
-    d[tau] = sum;
+function lookupPitch(t) {
+  let lo = 0, hi = pitchTrack.length - 1;
+  if (hi < 0) return 0;
+  while (lo < hi) {
+    const mid = (lo + hi + 1) >> 1;
+    if (pitchTrack[mid][0] <= t) lo = mid; else hi = mid - 1;
   }
-
-  // 2. Cumulative mean normalized difference (CMND)
-  const cmnd = new Float32Array(maxTau + 1);
-  cmnd[0] = 1.0;
-  let runningSum = 0.0;
-  for (let tau = 1; tau <= maxTau; tau++) {
-    runningSum += d[tau];
-    cmnd[tau] = runningSum > 1e-9 ? (d[tau] * tau) / runningSum : 1.0;
-  }
-
-  // 3. Absolute thresholding: find first minimum below threshold
-  let bestTau = -1;
-  for (let tau = minTau; tau < maxTau; tau++) {
-    if (cmnd[tau] < threshold) {
-      while (tau + 1 <= maxTau && cmnd[tau + 1] < cmnd[tau]) {
-        tau++;
-      }
-      bestTau = tau;
-      break;
-    }
-  }
-
-  // Fallback to global minimum in search range if below 0.38
-  if (bestTau === -1) {
-    let minVal = 999.0;
-    for (let tau = minTau; tau <= maxTau; tau++) {
-      if (cmnd[tau] < minVal) {
-        minVal = cmnd[tau];
-        bestTau = tau;
-      }
-    }
-    if (minVal > 0.38) return { f0: 0, conf: 0 };
-  }
-
-  // 4. Parabolic interpolation
-  const t0 = Math.max(minTau, bestTau - 1);
-  const t2 = Math.min(maxTau, bestTau + 1);
-  const s0 = cmnd[t0], s1 = cmnd[bestTau], s2 = cmnd[t2];
-  const denom = 2.0 * (2.0 * s1 - s0 - s2);
-  let delta = Math.abs(denom) > 1e-9 ? (s2 - s0) / denom : 0.0;
-  if (Math.abs(delta) > 1.0) delta = 0.0;
-
-  const refinedTau = bestTau + delta;
-  const f0 = sampleRate / refinedTau;
-  const conf = Math.max(0.0, Math.min(1.0, 1.0 - cmnd[bestTau]));
-  return { f0, conf };
+  const p = pitchTrack[lo];
+  return (p[0] <= t && t - p[0] <= 0.025) ? p[1] : 0;
 }
 
-// ==========================================
-// Audio & Visualization State Management
-// ==========================================
+
+// --- Audio & Visualization Engine ---
 let audioCtx = null;
 let analyser = null;
 let micStream = null;
@@ -738,10 +391,12 @@ const m2Prob = document.getElementById("m2Prob");
 const gciVal = document.getElementById("gciVal");
 const rbiVal = document.getElementById("rbiVal");
 
+// Canvases
 const centsCanvas = document.getElementById("centsCanvas");
 const centsCtx = centsCanvas.getContext("2d");
 const phaseCanvas = document.getElementById("phaseCanvas");
 const phaseCtx = phaseCanvas.getContext("2d");
+
 const audioLevelStrip = document.getElementById("audioLevelStrip");
 
 // Piano Roll Elements
@@ -754,14 +409,24 @@ const btnZoomOut = document.getElementById("btnZoomOut");
 
 // Piano Roll Speed Controls
 let prScrollSpeed = 2.2;
+const prSpeedSlider = document.getElementById("prSpeedSlider");
+const prSpeedVal = document.getElementById("prSpeedVal");
 const speedPresetBtns = document.querySelectorAll(".speed-preset-btn");
 
 function updatePrSpeed(val) {
   prScrollSpeed = parseFloat(val);
+  if (prSpeedSlider) prSpeedSlider.value = prScrollSpeed;
+  const factor = (prScrollSpeed / 2.2).toFixed(1);
+  if (prSpeedVal) prSpeedVal.textContent = `${factor}x`;
+
   speedPresetBtns.forEach(btn => {
     const s = parseFloat(btn.getAttribute("data-speed"));
     btn.classList.toggle("active", Math.abs(s - prScrollSpeed) < 0.2);
   });
+}
+
+if (prSpeedSlider) {
+  prSpeedSlider.addEventListener("input", (e) => updatePrSpeed(e.target.value));
 }
 
 speedPresetBtns.forEach(btn => {
@@ -856,7 +521,7 @@ let frameCount = 0;
 let lastModelCProbs = [0.33, 0.33, 0.33];
 let lastGci = 0.0, lastRbi = 0.0;
 
-const MIC_RING_SIZE = 65536;
+const MIC_RING_SIZE = 32768;
 const micRingBuffer = new Float32Array(MIC_RING_SIZE);
 let micRingHead = 0;
 
@@ -877,7 +542,7 @@ function getRecentAudio(numSamples) {
   return out;
 }
 
-// AudioBuffer Player (Zero Server Dependency)
+// Common buffer player for file and demo audio
 async function playLoadedBuffer(audioBuffer, displayName) {
   if (currentSourceNode) {
     try { currentSourceNode.stop(); } catch(e){}
@@ -887,17 +552,15 @@ async function playLoadedBuffer(audioBuffer, displayName) {
     micStream.getTracks().forEach(t => t.stop());
     micStream = null;
   }
+  if (liveTap) { try { liveTap.disconnect(); } catch (e) {} liveTap = null; }
   if (!audioCtx) {
-    const AC = window.AudioContext || window.webkitAudioContext;
-    audioCtx = new AC();
+    audioCtx = newAudioContext();
   }
-  if (audioCtx.state === 'suspended') {
-    await audioCtx.resume();
-  }
+  audioCtx.resume();
 
   analyser = audioCtx.createAnalyser();
-  analyser.fftSize = 2048;
-  analyser.smoothingTimeConstant = 0.2;
+  analyser.fftSize = 4096;
+  analyser.smoothingTimeConstant = 0.3;
 
   gainNode = audioCtx.createGain();
   gainNode.gain.value = parseFloat(micGain.value);
@@ -911,17 +574,27 @@ async function playLoadedBuffer(audioBuffer, displayName) {
 
   currentSourceNode = source;
   currentAudioBuffer = audioBuffer;
+  noteSub.textContent = "サーバーで解析準備中...";
+  try {
+    await beginFileAnalysis(audioBuffer);
+  } catch (err) {
+    currentSourceNode = null;
+    currentAudioBuffer = null;
+    noteSub.textContent = err.message;
+    alert(err.message);
+    return;
+  }
   playbackStartTime = audioCtx.currentTime;
-  trajectoryHistory = [];
-
   source.start(0);
+
   isRunning = true;
   startBtn.classList.add("running");
   btnText.textContent = "再生停止";
   noteSub.textContent = `再生中: ${displayName}`;
 
   source.onended = () => {
-    if (currentSourceNode && currentSourceNode !== source) return;
+    if (currentSourceNode && currentSourceNode !== source) return;   // 新しい再生に置き換わった後の遅延イベント
+    stopSession();
     isRunning = false;
     currentAudioBuffer = null;
     playbackStartTime = 0;
@@ -933,12 +606,29 @@ async function playLoadedBuffer(audioBuffer, displayName) {
   requestAnimationFrame(renderLoop);
 }
 
-// File Input Handling
+// File Input & Drag and Drop Handling
 fileBtn.addEventListener("click", () => audioFileInput.click());
 audioFileInput.addEventListener("change", async (e) => {
   const file = e.target.files[0];
   if (file) await loadAndPlayAudioFile(file);
 });
+
+async function decodeAudioDataSmart(ctx, arrayBuffer) {
+  // 1. Try instant synchronous WAV decoder (super fast, no browser codec hanging)
+  const syncBuf = decodeWavSync(arrayBuffer, ctx);
+  if (syncBuf) return syncBuf;
+
+  // 2. Fallback to native decodeAudioData
+  return new Promise((resolve, reject) => {
+    ctx.decodeAudioData(
+      arrayBuffer.slice(0),
+      (buf) => resolve(buf),
+      (err) => {
+        ctx.decodeAudioData(arrayBuffer).then(resolve).catch(reject);
+      }
+    );
+  });
+}
 
 window.addEventListener("dragenter", (e) => { e.preventDefault(); e.stopPropagation(); });
 window.addEventListener("dragover", (e) => { e.preventDefault(); e.stopPropagation(); });
@@ -953,11 +643,8 @@ window.addEventListener("drop", async (e) => {
 async function loadAndPlayAudioFile(file) {
   noteSub.textContent = `読込中: ${file.name}...`;
   try {
-    if (!audioCtx) {
-      const AC = window.AudioContext || window.webkitAudioContext;
-      audioCtx = new AC();
-    }
-    if (audioCtx.state === 'suspended') await audioCtx.resume();
+    if (!audioCtx) audioCtx = newAudioContext();
+    audioCtx.resume();
 
     const arrayBuffer = await file.arrayBuffer();
     const audioBuffer = await decodeAudioDataSmart(audioCtx, arrayBuffer);
@@ -968,9 +655,11 @@ async function loadAndPlayAudioFile(file) {
   }
 }
 
-// Microphone Toggle (Pure Client-Side Web Audio API)
+// Microphone Toggle
 async function toggleAudio() {
   if (isRunning) {
+    stopSession();
+    if (liveTap) { try { liveTap.disconnect(); } catch (e) {} liveTap = null; }
     if (currentSourceNode) {
       try { currentSourceNode.stop(); } catch(e){}
       currentSourceNode = null;
@@ -979,10 +668,8 @@ async function toggleAudio() {
       micStream.getTracks().forEach(t => t.stop());
       micStream = null;
     }
-    if (audioCtx) {
-      try { await audioCtx.close(); } catch(e){}
-      audioCtx = null;
-    }
+    if (audioCtx) audioCtx.close();
+    audioCtx = null;
     currentAudioBuffer = null;
     playbackStartTime = 0;
     isRunning = false;
@@ -999,11 +686,12 @@ async function toggleAudio() {
   }
 
   try {
-    if (audioCtx) { try { await audioCtx.close(); } catch (e) {} }
-    const AC = window.AudioContext || window.webkitAudioContext;
-    audioCtx = new AC();
-    if (audioCtx.state === 'suspended') await audioCtx.resume();
-
+    if (audioCtx) { try { audioCtx.close(); } catch (e) {} }
+    audioCtx = newAudioContext();
+    audioCtx.resume();
+    if (Math.abs(audioCtx.sampleRate - TARGET_SR) > 1) {
+      throw new Error("このブラウザは 22,050Hz のマイク入力に未対応です (Chrome / Edge を使用してください)。");
+    }
     micStream = await navigator.mediaDevices.getUserMedia({
       audio: {
         echoCancellation: false,
@@ -1018,15 +706,20 @@ async function toggleAudio() {
     micGain.oninput = () => { if (gainNode) gainNode.gain.value = parseFloat(micGain.value); };
 
     analyser = audioCtx.createAnalyser();
-    analyser.fftSize = 2048;
-    analyser.smoothingTimeConstant = 0.2;
+    analyser.fftSize = 4096;
+    analyser.smoothingTimeConstant = 0.3;
 
     source.connect(gainNode);
     gainNode.connect(analyser);
 
+    const muteGain = audioCtx.createGain();
+    muteGain.gain.value = 0.0;
+    analyser.connect(muteGain);
+    muteGain.connect(audioCtx.destination);
+    await setupLiveTap(gainNode, muteGain);
+
     currentAudioBuffer = null;
     playbackStartTime = 0;
-    trajectoryHistory = [];
     isRunning = true;
     startBtn.classList.add("running");
     btnText.textContent = "マイク停止";
@@ -1035,21 +728,19 @@ async function toggleAudio() {
     requestAnimationFrame(renderLoop);
   } catch (err) {
     const isFileProto = window.location.protocol === "file:";
-    let msg = "マイクの開始に失敗しました: " + err.message;
+    let msg = "開始に失敗しました: " + err.message;
     if (isFileProto) {
-      msg += "\n\n【ヒント】ブラウザのセキュリティ制限により、file:// プロトコルではマイクがブロックされる場合があります。GitHub Pages またはローカルHTTPサーバーで実行してください。";
+      msg += "\n\n【重要】file:// ではブラウザがマイクを制限します。\n同梱のローカルサーバー (http://localhost:8000/vocal_tuner.html) で開いてください。";
     }
     decisionBadge.textContent = "マイクエラー";
     decisionBadge.style.color = "#ff5050";
-    noteSub.textContent = isFileProto ? "file://制限: HTTPSまたはサーバー推奨" : err.message;
+    noteSub.textContent = isFileProto ? "file://制限: localhost:8000で開いてください" : err.message;
     alert(msg);
   }
 }
 startBtn.addEventListener("click", toggleAudio);
 
-// ==========================================
-// Main 60 FPS Render Loop (Pure Client-Side DSP + Model C)
-// ==========================================
+// Main 60 FPS Render Loop
 function renderLoop() {
   if (!isRunning) return;
 
@@ -1057,39 +748,43 @@ function renderLoop() {
   const timeData = new Float32Array(analyser.fftSize);
   analyser.getFloatTimeDomainData(timeData);
 
+  if (!currentAudioBuffer) {
+    pushMicAudio(timeData);
+  }
+
+  // 1. Backend results: Praat F0 + Model C (computed by server.py)
+  let f0 = 0.0;
+  let conf = 0.0;
+  let isSilence = true;
   let rms = 0.0;
   for (let i = 0; i < timeData.length; i++) rms += timeData[i] * timeData[i];
   rms = Math.sqrt(rms / timeData.length);
 
-  pushMicAudio(timeData);
-  const isSilence = rms < 0.007;
+  // 表示時刻: ファイル/デモ = 再生位置 (動画と同じ idx=floor(t/0.15))、ライブ = 現在 - LIVE_DELAY
+  let tNow = null;
+  if (currentAudioBuffer) tNow = Math.max(0, audioCtx.currentTime - playbackStartTime);
+  else if (sessionMode === "live") tNow = Math.max(0, audioCtx.currentTime - sessionStartCtxTime - LIVE_DELAY);
 
-  const resPitch = detectPitchTrueYIN(timeData, audioCtx.sampleRate);
-  const f0 = resPitch.f0;
-  const conf = resPitch.conf;
-
-  // Run Model C DSP inference every 5 frames (~80ms) for high efficiency
-  if (frameCount % 5 === 0) {
-    if (!isSilence && f0 >= 65 && f0 <= 1200 && conf > 0.35) {
-      const origSr = audioCtx.sampleRate;
-      const numSamples = Math.floor(0.3 * origSr);
-      const rawSeg = getRecentAudio(numSamples);
-      const seg22k = resampleTo22050(rawSeg, origSr);
-      const feats = extractAuthenticFeatures(seg22k, 22050, f0);
-      const res = predictModelC(f0, feats);
-      lastModelCProbs = res.probs;
-      lastGci = res.gci;
-      lastRbi = res.rbi;
+  if (tNow !== null) {
+    const seg = findSegment(Math.floor(tNow / SEG_STEP));
+    if (seg) {
+      isSilence = seg.silence;
+      lastModelCProbs = seg.probs;
+      lastGci = seg.gci;
+      lastRbi = seg.rbi;
     }
+    f0 = lookupPitch(tNow);
+    conf = f0 > 0 ? 1.0 : 0.0;
   }
 
-  const isPitched = f0 >= 65 && f0 <= 1200 && !isSilence && conf > 0.35;
+  const isPitched = f0 >= 75 && f0 <= 1200 && !isSilence;
+
   const probs = isSilence ? [0.33, 0.33, 0.33] : lastModelCProbs;
   const gci = isSilence ? 0.0 : lastGci;
   const rbi = isSilence ? 0.0 : lastRbi;
 
   for (let c = 0; c < 3; c++) {
-    smoothProbs[c] = smoothProbs[c] * 0.75 + probs[c] * 0.25;
+    smoothProbs[c] = smoothProbs[c] * 0.7 + probs[c] * 0.3;
   }
 
   // --- UI Update: Tuner ---
@@ -1113,6 +808,7 @@ function renderLoop() {
       tuneBadge.className = "tune-indicator";
       noteDisplay.style.color = "#fff";
     }
+    
 
     if (autoFollow) {
       prMidiCenter = prMidiCenter * 0.94 + midi * 0.06;
@@ -1134,7 +830,6 @@ function renderLoop() {
     midi: isPitched ? hzToMidi(smoothF0) : null,
     voiced: isPitched
   });
-
   const maxHistoryNeeded = Math.ceil((pianoRollCanvas.width / (window.devicePixelRatio || 1)) / Math.max(0.6, prScrollSpeed)) + 80;
   while (prHistory.length > Math.max(600, maxHistoryNeeded)) {
     prHistory.shift();
@@ -1426,7 +1121,3 @@ function drawPhaseSpace(gci, rbi, isSilence) {
 </script>
 </body>
 </html>
-
-
-
-
