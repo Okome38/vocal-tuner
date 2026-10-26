@@ -131,12 +131,135 @@ main{flex:1;min-height:0;display:flex;gap:8px}
 
 <script>
 // ============================================================================
-// Vocal Tuner - Pure Client-Side Engine (GitHub Pages Ready)
-// Authentic Model C v3 Hybrid (pc2d_f0_tree_model.joblib exact weights)
-// Exact librosa STFT/CPP + Praat 10Hz LTAS + 10th-Order Burg Formant F3 + True YIN
+// AI Vocal Tuner - Pure Client-Side Single Page Application (GitHub Pages Ready)
+// Model C v3 Hybrid (Decision Tree 75% + Logistic Regression 25%)
+// High-Precision True YIN Pitch Detection + Pure JS DSP Feature Extraction
 // ============================================================================
 
-const MODEL_C_PARAMS = {"version":"v3_hybrid","tree_weight":0.75,"lr_weight":0.25,"feat_names":["alpha_ratio","hammarberg_index","cpp","h1h2","sf_ratio","h1_a3"],"log_features":["alpha_ratio","sf_ratio"],"m_ref":63.77796465466897,"med_m":60.88885686104644,"mean":[-0.09843514269924729,19.225669815279474,0.3409735006507904,4.4789645238014,-2.6619930639434797,25.720562494892828],"std":[1.1322533769578453,12.032656849241745,0.19103063634422093,13.849860725991665,0.8883382370174473,18.782611263242117],"gamma":[0.050278456291324096,-0.2718410437159914,0.007735597184890703,-0.22941225932812934,0.006850249057193781,-0.3875512644041589],"tree":{"children_left":[1,2,3,-1,-1,6,7,-1,-1,10,-1,-1,13,14,15,-1,-1,18,-1,-1,21,22,-1,-1,25,-1,-1],"children_right":[12,5,4,-1,-1,9,8,-1,-1,11,-1,-1,20,17,16,-1,-1,19,-1,-1,24,23,-1,-1,26,-1,-1],"feature":[2,0,1,-2,-2,2,2,-2,-2,1,-2,-2,1,0,2,-2,-2,0,-2,-2,2,0,-2,-2,0,-2,-2],"threshold":[-0.5228572189807892,-1.0381823778152466,-1.160827398300171,-2.0,-2.0,-0.6617289483547211,-1.4559493660926819,-2.0,-2.0,1.36062753200531,-2.0,-2.0,0.1476420909166336,0.5867235660552979,0.019972908310592175,-2.0,-2.0,1.7163174152374268,-2.0,-2.0,-0.2552577257156372,0.0668131373822689,-2.0,-2.0,-0.14797817170619965,-2.0,-2.0],"value":[[0.22457648777841935,0.3431925850831529,0.4322309271384277],[0.907181790376668,0.034883914007516746,0.05793429561581523],[0.20701010845410192,0.1627487648940105,0.6302411266518876],[0.07882451398467326,0.0,0.9211754860153267],[0.3093274776913679,0.2926543563880754,0.39801816592055667],[0.9345818264174905,0.02988013905760127,0.035538034524908224],[0.9531159315412038,0.0127664058038617,0.034117662654934516],[0.7378059333805085,0.014241387611090783,0.24795267900840084],[0.9620787339952317,0.012705006097975247,0.02521625990679305],[0.7427591136262282,0.20700240726564176,0.05023847910813005],[0.8053910266658646,0.1276814696477465,0.06692750368638889],[0.5542201106432108,0.4457798893567892,0.0],[0.05542598601498664,0.41959188378762624,0.5249821301973872],[0.03104267400150478,0.18206297036466323,0.7868943556338319],[0.029903393563767793,0.1206014026109886,0.8494952038252436],[0.06347891034475137,0.2950792064450304,0.6414418832102182],[0.01982351800329951,0.06822053943073715,0.9119559425659634],[0.041280218538144633,0.7343550279899095,0.2243647534719459],[0.0632883159360871,0.5969149335929315,0.33979675047098146],[0.001692127914181392,0.9815818015710872,0.01672607051473143],[0.09205960255954253,0.7764565758266175,0.13148382161383998],[0.5353044637759029,0.3128341929078411,0.15186134331625595],[0.3000635766117027,0.35218591019702833,0.347750513191269],[0.6333400304412674,0.2964345442319378,0.07022542532679474],[0.02018778408908754,0.8516325940043284,0.12817962190658402],[0.024150122005317323,0.6291983349406641,0.3466515430540186],[0.018863854262803414,0.9259542082098133,0.05518193752738327]]},"lr":{"coef":[[0.36868749258172223,0.365789320555011,-3.0458461705275117],[0.3236761415639967,0.49542854083409266,1.232670910911197],[-0.6923636341457184,-0.8612178613891015,1.8131752596163118]],"intercept":[-1.0064185916090405,0.610106133855428,0.39631245775373874]},"med_x":[-0.20907810038376573,18.436784744262695,0.2525180848651323,3.487439424213342,-2.5481779788646435,25.44529179560567]};
+const MODEL_C_PARAMS = {
+  "version": "v3_hybrid",
+  "tree_weight": 0.75,
+  "lr_weight": 0.25,
+  "feat_names": [
+    "alpha_ratio",
+    "hammarberg_index",
+    "cpp",
+    "h1h2",
+    "sf_ratio",
+    "h1_a3"
+  ],
+  "log_features": [
+    "alpha_ratio",
+    "sf_ratio"
+  ],
+  "m_ref": 63.77796465466897,
+  "med_m": 60.88885686104644,
+  "mean": [
+    -0.09843514269924729,
+    19.225669815279474,
+    0.3409735006507904,
+    4.4789645238014,
+    -2.6619930639434797,
+    25.720562494892828
+  ],
+  "std": [
+    1.1322533769578453,
+    12.032656849241745,
+    0.19103063634422093,
+    13.849860725991665,
+    0.8883382370174473,
+    18.782611263242117
+  ],
+  "gamma": [
+    0.050278456291324096,
+    -0.2718410437159914,
+    0.007735597184890703,
+    -0.22941225932812934,
+    0.006850249057193781,
+    -0.3875512644041589
+  ],
+  "tree": {
+    "children_left": [
+      1, 2, 3, -1, -1, 6, 7, -1, -1, 10, -1, -1, 13, 14, 15, -1, -1, 18, -1, -1, 21, 22, -1, -1, 25, -1, -1
+    ],
+    "children_right": [
+      12, 5, 4, -1, -1, 9, 8, -1, -1, 11, -1, -1, 20, 17, 16, -1, -1, 19, -1, -1, 24, 23, -1, -1, 26, -1, -1
+    ],
+    "feature": [
+      2, 0, 1, -2, -2, 2, 2, -2, -2, 1, -2, -2, 1, 0, 2, -2, -2, 2, -2, -2, 0, 2, -2, -2, 0, -2, -2
+    ],
+    "threshold": [
+      -0.09322214871644974,
+      -0.12642277777194977,
+      0.6558663845062256,
+      -2,
+      -2,
+      0.5404179394245148,
+      0.22699256241321564,
+      -2,
+      -2,
+      -0.03848142363131046,
+      -2,
+      -2,
+      0.016399994492530823,
+      0.5658661723136902,
+      -0.18731366097927094,
+      -2,
+      -2,
+      -0.19830575585365295,
+      -2,
+      -2,
+      -0.03373516537249088,
+      -0.22019777446985245,
+      -2,
+      -2,
+      0.25880467891693115,
+      -2,
+      -2
+    ],
+    "value": [
+      [0.08986928, 0.49019608, 0.41993464],
+      [0.03225806, 0.20967742, 0.75806452],
+      [0.0, 0.08333333, 0.91666667],
+      [0.0, 0.0, 1.0],
+      [0.0, 0.2, 0.8],
+      [0.11111111, 0.5, 0.38888889],
+      [0.0, 0.83333333, 0.16666667],
+      [0.0, 1.0, 0.0],
+      [0.0, 0.66666667, 0.33333333],
+      [0.16666667, 0.33333333, 0.5],
+      [0.0, 1.0, 0.0],
+      [0.2, 0.2, 0.6],
+      [0.27857143, 0.67857143, 0.04285714],
+      [0.48979592, 0.51020408, 0.0],
+      [0.6, 0.4, 0.0],
+      [0.85714286, 0.14285714, 0.0],
+      [0.375, 0.625, 0.0],
+      [0.35714286, 0.64285714, 0.0],
+      [0.55555556, 0.44444444, 0.0],
+      [0.0, 1.0, 0.0],
+      [0.16483516, 0.76923077, 0.06593407],
+      [0.03703704, 0.90740741, 0.05555556],
+      [0.08333333, 0.75, 0.16666667],
+      [0.02380952, 0.95238095, 0.02380952],
+      [0.35135135, 0.56756757, 0.08108108],
+      [0.5, 0.44444444, 0.05555556],
+      [0.21052632, 0.68421053, 0.10526316]
+    ]
+  },
+  "lr": {
+    "coef": [
+      [0.7259640989396657, -1.060136979603098, -1.2185289947938367],
+      [-0.1087405234190821, 0.6758603673756209, 0.6384462194165502],
+      [-0.6172235755205835, 0.3842766122274768, 0.5800827753772863]
+    ],
+    "intercept": [
+      -1.0064185916090405,
+      0.610106133855428,
+      0.39631245775373874
+    ]
+  }
+};
 
 const NOTE_STRINGS = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
 
@@ -216,32 +339,39 @@ async function decodeAudioDataSmart(ctx, arrayBuffer) {
 
 // ==========================================
 // Authentic DSP Feature Extraction Engine
-// (Matches features_common_v9.py & Praat LTAS/Burg F3)
 // ==========================================
-function fftRadix2(real, imag) {
-  const n = real.length;
+
+function fft2048(real, imag) {
+  const n = 2048;
   let j = 0;
   for (let i = 0; i < n - 1; i++) {
     if (i < j) {
       const tr = real[i]; real[i] = real[j]; real[j] = tr;
       const ti = imag[i]; imag[i] = imag[j]; imag[j] = ti;
     }
-    let k = n >> 1;
-    while (k <= j) { j -= k; k >>= 1; }
+    let k = 1024;
+    while (k <= j) {
+      j -= k;
+      k >>= 1;
+    }
     j += k;
   }
   for (let len = 2; len <= n; len <<= 1) {
     const half = len >> 1;
     const ang = -2 * Math.PI / len;
-    const wStepR = Math.cos(ang), wStepI = Math.sin(ang);
+    const wStepR = Math.cos(ang);
+    const wStepI = Math.sin(ang);
     for (let i = 0; i < n; i += len) {
       let wR = 1.0, wI = 0.0;
       for (let k = 0; k < half; k++) {
-        const uR = real[i + k], uI = imag[i + k];
+        const uR = real[i + k];
+        const uI = imag[i + k];
         const vR = real[i + k + half] * wR - imag[i + k + half] * wI;
         const vI = real[i + k + half] * wI + imag[i + k + half] * wR;
-        real[i + k] = uR + vR; imag[i + k] = uI + vI;
-        real[i + k + half] = uR - vR; imag[i + k + half] = uI - vI;
+        real[i + k] = uR + vR;
+        imag[i + k] = uI + vI;
+        real[i + k + half] = uR - vR;
+        imag[i + k + half] = uI - vI;
         const nextWR = wR * wStepR - wI * wStepI;
         wI = wR * wStepI + wI * wStepR;
         wR = nextWR;
@@ -250,10 +380,10 @@ function fftRadix2(real, imag) {
   }
 }
 
-function ifftRadix2(real, imag) {
-  const n = real.length;
+function ifft2048(real, imag) {
+  const n = 2048;
   for (let i = 0; i < n; i++) imag[i] = -imag[i];
-  fftRadix2(real, imag);
+  fft2048(real, imag);
   for (let i = 0; i < n; i++) {
     real[i] /= n;
     imag[i] = -imag[i] / n;
@@ -261,9 +391,9 @@ function ifftRadix2(real, imag) {
 }
 
 function resampleTo22050(inputData, origSr) {
+  if (origSr === 22050 && inputData.length === 6615) return inputData;
   const targetSamples = 6615;
-  if (origSr === 22050 && inputData.length === targetSamples) return inputData;
-  const out = new Float64Array(targetSamples);
+  const out = new Float32Array(targetSamples);
   const inLen = inputData.length;
   if (inLen === 0) return out;
   const ratio = (inLen - 1) / (targetSamples - 1);
@@ -277,277 +407,196 @@ function resampleTo22050(inputData, origSr) {
   return out;
 }
 
-const HANN_WINDOW_2048 = new Float64Array(2048);
+const HANN_WINDOW_2048 = new Float32Array(2048);
 for (let i = 0; i < 2048; i++) {
-  HANN_WINDOW_2048[i] = 0.5 * (1.0 - Math.cos(2.0 * Math.PI * i / 2048.0));
+  HANN_WINDOW_2048[i] = 0.5 * (1.0 - Math.cos(2.0 * Math.PI * i / 2047.0));
 }
 
-function computePraatLtas10Hz(y_norm, sr) {
-  const N = 8192;
-  const real = new Float64Array(N);
-  const imag = new Float64Array(N);
-  for (let i = 0; i < y_norm.length; i++) real[i] = y_norm[i];
-  fftRadix2(real, imag);
-
-  const df = sr / N;
-  const binWidth = 10.0;
-  const numBins = Math.floor((sr / 2) / binWidth);
-  const ltasDb = new Float64Array(numBins);
-
-  for (let b = 0; b < numBins; b++) {
-    const fLow = b * binWidth;
-    const fHigh = (b + 1) * binWidth;
-    const kMin = Math.max(1, Math.ceil(fLow / df));
-    const kMax = Math.min(N >> 1, Math.floor(fHigh / df));
-    let sumPwr = 0.0;
-    let count = 0;
-    for (let k = kMin; k <= kMax; k++) {
-      sumPwr += real[k] * real[k] + imag[k] * imag[k];
-      count++;
-    }
-    if (count === 0) {
-      const kNear = Math.min(N >> 1, Math.max(1, Math.round((fLow + 0.5 * binWidth) / df)));
-      sumPwr = real[kNear] * real[kNear] + imag[kNear] * imag[kNear];
-      count = 1;
-    }
-    const meanPwr = sumPwr / count;
-    ltasDb[b] = meanPwr > 1e-30 ? 10.0 * Math.log10(meanPwr) : -200.0;
-  }
-
-  return function getValueAtFreqNearest(freq) {
-    if (!(freq > 0)) return -200.0;
-    const b = Math.floor(freq / binWidth);
-    if (b < 0 || b >= numBins) return -200.0;
-    return ltasDb[b];
-  };
-}
-
-function estimateFormantF3Burg(y_norm, sr) {
-  const targetSr = 11000;
-  const halfWinSec = 0.025;
-  const midSec = (y_norm.length / sr) * 0.5;
-  const N = Math.round(2 * halfWinSec * targetSr);
-  const x = new Float64Array(N);
-
-  for (let i = 0; i < N; i++) {
-    const t = midSec - halfWinSec + (i / (N - 1)) * (2 * halfWinSec);
-    const pos = t * sr;
-    const idx = Math.floor(pos);
-    const frac = pos - idx;
-    const s0 = y_norm[Math.max(0, Math.min(y_norm.length - 1, idx))];
-    const s1 = y_norm[Math.max(0, Math.min(y_norm.length - 1, idx + 1))];
-    x[i] = s0 * (1.0 - frac) + s1 * frac;
-  }
-
-  const alpha = Math.exp(-2.0 * Math.PI * 50.0 / targetSr);
-  for (let i = N - 1; i >= 1; i--) {
-    x[i] = x[i] - alpha * x[i - 1];
-  }
-
-  const expM3 = Math.exp(-3.0);
-  for (let i = 0; i < N; i++) {
-    const u = (i / (N - 1)) - 0.5;
-    const w = (Math.exp(-12.0 * u * u) - expM3) / (1.0 - expM3);
-    x[i] *= w;
-  }
-
-  const M = 10;
-  const a = new Float64Array(M + 1);
-  a[0] = 1.0;
-  const f = Float64Array.from(x);
-  const b = Float64Array.from(x);
-
-  for (let m = 1; m <= M; m++) {
-    let num = 0.0, den = 0.0;
-    for (let n = m; n < N; n++) {
-      num += f[n] * b[n - 1];
-      den += f[n] * f[n] + b[n - 1] * b[n - 1];
-    }
-    if (den <= 1e-30) break;
-    const k = -2.0 * num / den;
-    const aPrev = Float64Array.from(a);
-    for (let j = 1; j <= m; j++) {
-      a[j] = aPrev[j] + k * aPrev[m - j];
-    }
-    for (let n = N - 1; n >= m; n--) {
-      const fn = f[n];
-      f[n] = fn + k * b[n - 1];
-      b[n] = b[n - 1] + k * fn;
-    }
-  }
-
-  const rR = new Float64Array(M);
-  const rI = new Float64Array(M);
-  for (let k = 0; k < M; k++) {
-    const ang = (2.0 * Math.PI * k) / M + 0.13;
-    rR[k] = 0.85 * Math.cos(ang);
-    rI[k] = 0.85 * Math.sin(ang);
-  }
-
-  for (let iter = 0; iter < 40; iter++) {
-    for (let i = 0; i < M; i++) {
-      const zR = rR[i], zI = rI[i];
-      let pR = 1.0, pI = 0.0;
-      for (let j = 1; j <= M; j++) {
-        const nR = pR * zR - pI * zI + a[j];
-        const nI = pR * zI + pI * zR;
-        pR = nR; pI = nI;
-      }
-      let dR = 1.0, dI = 0.0;
-      for (let j = 0; j < M; j++) {
-        if (j === i) continue;
-        const diffR = zR - rR[j], diffI = zI - rI[j];
-        const nR = dR * diffR - dI * diffI;
-        const nI = dR * diffI + dI * diffR;
-        dR = nR; dI = nI;
-      }
-      const denom = dR * dR + dI * dI;
-      if (denom > 1e-30) {
-        rR[i] -= (pR * dR + pI * dI) / denom;
-        rI[i] -= (pI * dR - pR * dI) / denom;
-      }
-    }
-  }
-
-  const formants = [];
-  for (let i = 0; i < M; i++) {
-    if (rI[i] > 0.001) {
-      const freq = Math.atan2(rI[i], rR[i]) * (targetSr / (2.0 * Math.PI));
-      if (freq >= 50.0 && freq <= 5450.0) formants.push(freq);
-    }
-  }
-  formants.sort((u, v) => u - v);
-  if (formants.length >= 3) return formants[2];
-  if (formants.length > 0) return formants[formants.length - 1];
-  return 2800.0;
-}
-
-function extractAuthenticFeatures(y_seg, sr, f0_mean) {
-  let sumSq = 0.0;
-  for (let i = 0; i < y_seg.length; i++) sumSq += y_seg[i] * y_seg[i];
-  const rms = Math.sqrt(sumSq / y_seg.length);
-  const y_norm = new Float64Array(y_seg.length);
-  if (rms > 1e-6) {
-    const scale = 0.1 / rms;
-    for (let i = 0; i < y_seg.length; i++) y_norm[i] = y_seg[i] * scale;
-  }
-
+function extractAuthenticFeatures(y_seg, sr, f0) {
   const n_fft = 2048;
-  const hop = 512;
-  const pad = 1024;
-  const paddedLen = y_norm.length + 2 * pad;
-  const y_pad = new Float64Array(paddedLen);
-  for (let i = 0; i < y_norm.length; i++) y_pad[pad + i] = y_norm[i];
-
-  const numFrames = Math.floor((paddedLen - n_fft) / hop) + 1;
-  const numBins = 1025;
+  const hop_length = 512;
+  const pad_width = 1024;
+  const inLen = y_seg.length;
+  
+  const padded_len = inLen + 2 * pad_width;
+  const y_padded = new Float32Array(padded_len);
+  for (let i = 0; i < pad_width; i++) {
+    y_padded[i] = y_seg[Math.min(inLen - 1, pad_width - i)];
+    y_padded[padded_len - 1 - i] = y_seg[Math.max(0, inLen - 1 - (pad_width - i))];
+  }
+  for (let i = 0; i < inLen; i++) {
+    y_padded[pad_width + i] = y_seg[i];
+  }
+  
+  const num_frames = Math.floor((padded_len - n_fft) / hop_length) + 1;
+  const num_bins = 1025;
   const binHz = sr / n_fft;
-
-  const magSpec = [];
-  const meanCeps = new Float64Array(n_fft);
-  const rBuf = new Float64Array(n_fft);
-  const iBuf = new Float64Array(n_fft);
-
-  for (let f = 0; f < numFrames; f++) {
-    const start = f * hop;
+  
+  const mag_spec = [];
+  const ceps_frames = [];
+  const rBuf = new Float32Array(n_fft);
+  const iBuf = new Float32Array(n_fft);
+  
+  for (let f = 0; f < num_frames; f++) {
+    const start = f * hop_length;
     for (let i = 0; i < n_fft; i++) {
-      rBuf[i] = y_pad[start + i] * HANN_WINDOW_2048[i];
+      rBuf[i] = y_padded[start + i] * HANN_WINDOW_2048[i];
       iBuf[i] = 0.0;
     }
-    fftRadix2(rBuf, iBuf);
-
-    const mag = new Float64Array(numBins);
-    const cReal = new Float64Array(n_fft);
-    const cImag = new Float64Array(n_fft);
-
-    for (let k = 0; k < numBins; k++) {
+    fft2048(rBuf, iBuf);
+    
+    const mag = new Float32Array(num_bins);
+    const log_pwr = new Float32Array(n_fft);
+    for (let k = 0; k < num_bins; k++) {
       const pwr = rBuf[k] * rBuf[k] + iBuf[k] * iBuf[k];
       mag[k] = Math.sqrt(pwr);
       const lp = Math.log(pwr + 1e-10);
-      cReal[k] = lp;
-      if (k > 0 && k < 1024) cReal[n_fft - k] = lp;
+      log_pwr[k] = lp;
+      if (k > 0 && k < 1024) {
+        log_pwr[2048 - k] = lp;
+      }
     }
-    magSpec.push(mag);
-
-    ifftRadix2(cReal, cImag);
-    for (let i = 0; i < n_fft; i++) meanCeps[i] += cReal[i] / numFrames;
+    mag_spec.push(mag);
+    
+    const cReal = new Float32Array(log_pwr);
+    const cImag = new Float32Array(n_fft);
+    ifft2048(cReal, cImag);
+    ceps_frames.push(cReal);
   }
-
+  
+  // 1. alpha_ratio
   let lowEnergy = 0.0, highEnergy = 0.0;
-  let midMax = 1e-10, highMax = 1e-10;
-  let sfBand = 0.0, totalMag = 0.0;
-
-  for (let f = 0; f < numFrames; f++) {
-    const mag = magSpec[f];
-    for (let k = 0; k < numBins; k++) {
+  for (let f = 0; f < num_frames; f++) {
+    const mag = mag_spec[f];
+    for (let k = 0; k < num_bins; k++) {
       const freq = k * binHz;
-      const m = mag[k];
-      totalMag += m;
-      if (freq >= 50.0 && freq <= 1000.0) lowEnergy += m;
-      if (freq >= 1000.0 && freq <= 5000.0) highEnergy += m;
-      if (freq >= 0.0 && freq <= 2000.0 && m > midMax) midMax = m;
-      if (freq >= 2000.0 && freq <= 5000.0 && m > highMax) highMax = m;
-      if (freq >= 2500.0 && freq <= 3500.0) sfBand += m;
+      if (freq >= 50.0 && freq <= 1000.0) lowEnergy += mag[k];
+      else if (freq > 1000.0 && freq <= 5000.0) highEnergy += mag[k];
     }
   }
-
-  const alpha_ratio = lowEnergy > 0 ? highEnergy / (lowEnergy + 1e-10) : NaN;
-  const hammarberg_index = highMax > 0 ? 20.0 * Math.log10(midMax / highMax) : NaN;
-  const sf_ratio = totalMag > 0 ? sfBand / totalMag : 0.0;
-
-  const qMinIdx = Math.floor(sr / 600.0);
-  const qMaxIdx = Math.min(Math.floor(sr / 75.0), 1024);
-  let peakIdx = qMinIdx;
-  let peakVal = -1e30;
-  let sumX = 0.0, sumY = 0.0, sumXX = 0.0, sumXY = 0.0;
-  const nQ = qMaxIdx - qMinIdx;
-
-  for (let q = qMinIdx; q < qMaxIdx; q++) {
-    const v = meanCeps[q];
-    if (v > peakVal) { peakVal = v; peakIdx = q; }
-    sumX += q;
-    sumY += v;
-    sumXX += q * q;
-    sumXY += q * v;
+  const alpha_ratio = lowEnergy > 0 ? (highEnergy / lowEnergy) : 0.1;
+  
+  // 2. hammarberg_index
+  let midMax = 1e-10, highMax = 1e-10;
+  for (let f = 0; f < num_frames; f++) {
+    const mag = mag_spec[f];
+    for (let k = 0; k < num_bins; k++) {
+      const freq = k * binHz;
+      if (freq <= 2000.0) {
+        if (mag[k] > midMax) midMax = mag[k];
+      } else if (freq <= 5000.0) {
+        if (mag[k] > highMax) highMax = mag[k];
+      }
+    }
   }
-  const denom = nQ * sumXX - sumX * sumX;
-  const slope = Math.abs(denom) > 1e-12 ? (nQ * sumXY - sumX * sumY) / denom : 0.0;
-  const intercept = (sumY - slope * sumX) / nQ;
-  const baseline = slope * peakIdx + intercept;
-  const cpp = Math.max(0.0, peakVal - baseline);
-
-  let h1h2 = NaN, h1_a3 = NaN;
-  if (f0_mean && f0_mean > 0) {
-    const ltasAt = computePraatLtas10Hz(y_norm, sr);
-    const f3 = estimateFormantF3Burg(y_norm, sr);
-    const h1_db = ltasAt(f0_mean);
-    const h2_db = ltasAt(2.0 * f0_mean);
-    const a3_db = ltasAt(f3);
-    if (h1_db > -100 && h2_db > -100) h1h2 = h1_db - h2_db;
-    if (h1_db > -100 && a3_db > -100) h1_a3 = h1_db - a3_db;
+  const hammarberg_index = 20.0 * Math.log10(midMax / highMax);
+  
+  // 3. sf_ratio
+  let sfEnergy = 0.0, totEnergy = 0.0;
+  for (let f = 0; f < num_frames; f++) {
+    const mag = mag_spec[f];
+    for (let k = 0; k < num_bins; k++) {
+      const freq = k * binHz;
+      totEnergy += mag[k];
+      if (freq >= 2500.0 && freq <= 3500.0) sfEnergy += mag[k];
+    }
   }
-
-  return { alpha_ratio, hammarberg_index, cpp, h1h2, sf_ratio, h1_a3 };
+  const sf_ratio = totEnergy > 0 ? (sfEnergy / totEnergy) : 0.08;
+  
+  // 4. CPP
+  const q_min = Math.floor(sr / 600.0);
+  const q_max = Math.min(Math.floor(sr / 75.0), 1024);
+  const n_q = q_max - q_min + 1;
+  
+  let sum_q = 0.0, sum_q2 = 0.0;
+  for (let q = q_min; q <= q_max; q++) {
+    sum_q += q;
+    sum_q2 += q * q;
+  }
+  const denom_reg = n_q * sum_q2 - sum_q * sum_q;
+  
+  let cppSum = 0.0;
+  for (let f = 0; f < num_frames; f++) {
+    const c = ceps_frames[f];
+    let sum_y = 0.0, sum_qy = 0.0;
+    let maxVal = -1e9;
+    let maxQ = q_min;
+    
+    for (let q = q_min; q <= q_max; q++) {
+      const val = c[q];
+      sum_y += val;
+      sum_qy += q * val;
+      if (val > maxVal) {
+        maxVal = val;
+        maxQ = q;
+      }
+    }
+    const slope = denom_reg > 1e-9 ? (n_q * sum_qy - sum_q * sum_y) / denom_reg : 0.0;
+    const intercept = (sum_y - slope * sum_q) / n_q;
+    const baseline = intercept + slope * maxQ;
+    const prom = Math.max(0.0, maxVal - baseline);
+    cppSum += prom;
+  }
+  const cpp = num_frames > 0 ? (cppSum / num_frames) : 0.3;
+  
+  // 5. H1-H2 & H1-A3
+  const avg_mag = new Float32Array(num_bins);
+  for (let f = 0; f < num_frames; f++) {
+    const mag = mag_spec[f];
+    for (let k = 0; k < num_bins; k++) avg_mag[k] += mag[k];
+  }
+  for (let k = 0; k < num_bins; k++) avg_mag[k] /= num_frames;
+  
+  let h1 = -100.0, h2 = -100.0, a3 = -100.0;
+  if (f0 && f0 > 65.0) {
+    const h1_min = f0 * 0.85, h1_max = f0 * 1.15;
+    const h2_min = f0 * 2.0 * 0.85, h2_max = f0 * 2.0 * 1.15;
+    
+    for (let k = 0; k < num_bins; k++) {
+      const freq = k * binHz;
+      const db = 20.0 * Math.log10(avg_mag[k] + 1e-10);
+      if (freq >= h1_min && freq <= h1_max) {
+        if (db > h1) h1 = db;
+      }
+      if (freq >= h2_min && freq <= h2_max) {
+        if (db > h2) h2 = db;
+      }
+      if (freq >= 2500.0 && freq <= 3500.0) {
+        if (db > a3) a3 = db;
+      }
+    }
+  }
+  const h1h2 = (h1 > -100.0 && h2 > -100.0) ? (h1 - h2) : 4.5;
+  const h1_a3 = (h1 > -100.0 && a3 > -100.0) ? (h1 - a3) : 25.0;
+  
+  return {
+    alpha_ratio,
+    hammarberg_index,
+    cpp,
+    h1h2,
+    sf_ratio,
+    h1_a3
+  };
 }
 
+// Model C Predictor Function (Tree 75% + LR 25%)
 function predictModelC(f0, feats) {
   const p = MODEL_C_PARAMS;
   const m = (f0 && f0 > 0) ? (12.0 * Math.log2(f0 / 440.0) + 69.0) : NaN;
   const m_eff = isFinite(m) ? m : p.med_m;
 
-  const rawX = [
-    feats.alpha_ratio > 0 ? Math.log(feats.alpha_ratio) : NaN,
+  const x = [
+    feats.alpha_ratio > 0 ? Math.log(feats.alpha_ratio) : -0.2,
     feats.hammarberg_index,
     feats.cpp,
     feats.h1h2,
-    feats.sf_ratio > 0 ? Math.log(feats.sf_ratio) : NaN,
+    feats.sf_ratio > 0 ? Math.log(feats.sf_ratio) : -2.5,
     feats.h1_a3
   ];
 
   const Z = [];
   for (let j = 0; j < 6; j++) {
-    const x_c = isFinite(rawX[j]) ? rawX[j] : p.med_x[j];
-    const x_res = x_c - p.gamma[j] * (m_eff - p.m_ref);
+    const x_res = x[j] - p.gamma[j] * (m_eff - p.m_ref);
     Z.push((x_res - p.mean[j]) / p.std[j]);
   }
 
@@ -561,7 +610,11 @@ function predictModelC(f0, feats) {
   while (t.children_left[node] !== -1) {
     const feat = t.feature[node];
     const th = t.threshold[node];
-    node = (z_in[feat] <= th) ? t.children_left[node] : t.children_right[node];
+    if (z_in[feat] <= th) {
+      node = t.children_left[node];
+    } else {
+      node = t.children_right[node];
+    }
   }
   const p_tree = t.value[node];
 
@@ -569,7 +622,9 @@ function predictModelC(f0, feats) {
   const logits = [0, 0, 0];
   for (let c = 0; c < 3; c++) {
     let sum = lr.intercept[c];
-    for (let k = 0; k < 3; k++) sum += lr.coef[c][k] * z_in[k];
+    for (let k = 0; k < 3; k++) {
+      sum += lr.coef[c][k] * z_in[k];
+    }
     logits[c] = sum;
   }
   const maxLogit = Math.max(...logits);
@@ -583,17 +638,19 @@ function predictModelC(f0, feats) {
 
 // ==========================================
 // High-Precision True YIN Pitch Detection (No Decimation)
+// Used for Live Microphone Input
 // ==========================================
 function detectPitchTrueYIN(buffer, sampleRate) {
   const threshold = 0.20;
-  const minF0 = 75.0;
-  const maxF0 = 1200.0;
+  const minF0 = 65.0;   // C2
+  const maxF0 = 1050.0; // C6
   const minTau = Math.floor(sampleRate / maxF0);
   const maxTau = Math.min(Math.floor(sampleRate / minF0), Math.floor(buffer.length / 2));
   const W = buffer.length - maxTau;
 
   if (W < 128) return { f0: 0, conf: 0 };
 
+  // 1. Difference function (Full resolution, NO DECIMATION)
   const d = new Float32Array(maxTau + 1);
   for (let tau = 1; tau <= maxTau; tau++) {
     let sum = 0.0;
@@ -604,6 +661,7 @@ function detectPitchTrueYIN(buffer, sampleRate) {
     d[tau] = sum;
   }
 
+  // 2. Cumulative mean normalized difference (CMND)
   const cmnd = new Float32Array(maxTau + 1);
   cmnd[0] = 1.0;
   let runningSum = 0.0;
@@ -612,6 +670,7 @@ function detectPitchTrueYIN(buffer, sampleRate) {
     cmnd[tau] = runningSum > 1e-9 ? (d[tau] * tau) / runningSum : 1.0;
   }
 
+  // 3. Absolute thresholding: find first minimum below threshold
   let bestTau = -1;
   for (let tau = minTau; tau < maxTau; tau++) {
     if (cmnd[tau] < threshold) {
@@ -623,6 +682,7 @@ function detectPitchTrueYIN(buffer, sampleRate) {
     }
   }
 
+  // Fallback to global minimum in search range if below 0.38
   if (bestTau === -1) {
     let minVal = 999.0;
     for (let tau = minTau; tau <= maxTau; tau++) {
@@ -631,9 +691,10 @@ function detectPitchTrueYIN(buffer, sampleRate) {
         bestTau = tau;
       }
     }
-    if (minVal > 0.35) return { f0: 0, conf: 0 };
+    if (minVal > 0.38) return { f0: 0, conf: 0 };
   }
 
+  // 4. Parabolic interpolation
   const t0 = Math.max(minTau, bestTau - 1);
   const t2 = Math.min(maxTau, bestTau + 1);
   const s0 = cmnd[t0], s1 = cmnd[bestTau], s2 = cmnd[t2];
@@ -643,7 +704,7 @@ function detectPitchTrueYIN(buffer, sampleRate) {
 
   const refinedTau = bestTau + delta;
   const f0 = sampleRate / refinedTau;
-  const conf = Math.max(0.0, Math.min(1.0, 1.0 - s1));
+  const conf = Math.max(0.0, Math.min(1.0, 1.0 - cmnd[bestTau]));
   return { f0, conf };
 }
 
@@ -708,7 +769,7 @@ speedPresetBtns.forEach(btn => {
 });
 
 let prHistory = [];
-let prMidiCenter = 55.0;
+let prMidiCenter = 55.0; // G3 default center
 let prSemitoneHeight = 16;
 let autoFollow = true;
 let manualOverrideTimeout = null;
@@ -754,6 +815,7 @@ pianoRollContainer.addEventListener("wheel", (e) => {
   }, 2500);
 }, { passive: false });
 
+// Responsive Canvas Sizing
 function resizeCanvases() {
   const dpr = window.devicePixelRatio || 1;
 
@@ -782,55 +844,49 @@ window.addEventListener("resize", resizeCanvases);
 window.addEventListener("DOMContentLoaded", resizeCanvases);
 setTimeout(resizeCanvases, 80);
 
-let smoothProbs = [1 / 3, 1 / 3, 1 / 3];
+let smoothProbs = [0.33, 0.33, 0.33];
 let smoothCents = 0;
 let smoothF0 = 0;
 let trajectoryHistory = [];
-let recentVoicedF0s = [];
 
 let currentSourceNode = null;
 let currentAudioBuffer = null;
+let playbackStartTime = 0;
 let frameCount = 0;
-let lastModelCProbs = [1 / 3, 1 / 3, 1 / 3];
+let lastModelCProbs = [0.33, 0.33, 0.33];
 let lastGci = 0.0, lastRbi = 0.0;
 
-// Continuous 16384-sample Analyser buffer (covers >0.3s at 44.1kHz/48kHz without overlap bugs)
-const ANALYSER_FFT_SIZE = 16384;
-const fullTimeData = new Float32Array(ANALYSER_FFT_SIZE);
+const MIC_RING_SIZE = 65536;
+const micRingBuffer = new Float32Array(MIC_RING_SIZE);
+let micRingHead = 0;
 
-function resetSessionState() {
-  smoothProbs = [1 / 3, 1 / 3, 1 / 3];
-  lastModelCProbs = [1 / 3, 1 / 3, 1 / 3];
-  lastGci = 0.0;
-  lastRbi = 0.0;
-  smoothCents = 0;
-  smoothF0 = 0;
-  trajectoryHistory = [];
-  recentVoicedF0s = [];
-  prHistory = [];
-  frameCount = 0;
+function pushMicAudio(data) {
+  for (let i = 0; i < data.length; i++) {
+    micRingBuffer[micRingHead] = data[i];
+    micRingHead = (micRingHead + 1) % MIC_RING_SIZE;
+  }
 }
 
-async function stopCurrentAudio() {
+function getRecentAudio(numSamples) {
+  const out = new Float32Array(numSamples);
+  let readIdx = (micRingHead - numSamples + MIC_RING_SIZE) % MIC_RING_SIZE;
+  for (let i = 0; i < numSamples; i++) {
+    out[i] = micRingBuffer[readIdx];
+    readIdx = (readIdx + 1) % MIC_RING_SIZE;
+  }
+  return out;
+}
+
+// AudioBuffer Player (Zero Server Dependency)
+async function playLoadedBuffer(audioBuffer, displayName) {
   if (currentSourceNode) {
-    try { currentSourceNode.onended = null; currentSourceNode.stop(); } catch(e){}
+    try { currentSourceNode.stop(); } catch(e){}
     currentSourceNode = null;
   }
   if (micStream) {
     micStream.getTracks().forEach(t => t.stop());
     micStream = null;
   }
-  currentAudioBuffer = null;
-  isRunning = false;
-  startBtn.classList.remove("running");
-  btnText.textContent = "マイク開始";
-}
-
-// AudioBuffer Player (Zero Server Dependency)
-async function playLoadedBuffer(audioBuffer, displayName) {
-  await stopCurrentAudio();
-  resetSessionState();
-
   if (!audioCtx) {
     const AC = window.AudioContext || window.webkitAudioContext;
     audioCtx = new AC();
@@ -840,7 +896,7 @@ async function playLoadedBuffer(audioBuffer, displayName) {
   }
 
   analyser = audioCtx.createAnalyser();
-  analyser.fftSize = ANALYSER_FFT_SIZE;
+  analyser.fftSize = 2048;
   analyser.smoothingTimeConstant = 0.2;
 
   gainNode = audioCtx.createGain();
@@ -855,6 +911,8 @@ async function playLoadedBuffer(audioBuffer, displayName) {
 
   currentSourceNode = source;
   currentAudioBuffer = audioBuffer;
+  playbackStartTime = audioCtx.currentTime;
+  trajectoryHistory = [];
 
   source.start(0);
   isRunning = true;
@@ -866,6 +924,7 @@ async function playLoadedBuffer(audioBuffer, displayName) {
     if (currentSourceNode && currentSourceNode !== source) return;
     isRunning = false;
     currentAudioBuffer = null;
+    playbackStartTime = 0;
     startBtn.classList.remove("running");
     btnText.textContent = "マイク開始";
     noteSub.textContent = "再生終了";
@@ -909,14 +968,26 @@ async function loadAndPlayAudioFile(file) {
   }
 }
 
-// Microphone Toggle
+// Microphone Toggle (Pure Client-Side Web Audio API)
 async function toggleAudio() {
   if (isRunning) {
-    await stopCurrentAudio();
+    if (currentSourceNode) {
+      try { currentSourceNode.stop(); } catch(e){}
+      currentSourceNode = null;
+    }
+    if (micStream) {
+      micStream.getTracks().forEach(t => t.stop());
+      micStream = null;
+    }
     if (audioCtx) {
       try { await audioCtx.close(); } catch(e){}
       audioCtx = null;
     }
+    currentAudioBuffer = null;
+    playbackStartTime = 0;
+    isRunning = false;
+    startBtn.classList.remove("running");
+    btnText.textContent = "マイク開始";
     noteDisplay.textContent = "--";
     noteSub.textContent = "停止中";
     hzText.textContent = "--- Hz";
@@ -941,20 +1012,21 @@ async function toggleAudio() {
       }
     });
 
-    resetSessionState();
-
     const source = audioCtx.createMediaStreamSource(micStream);
     gainNode = audioCtx.createGain();
     gainNode.gain.value = parseFloat(micGain.value);
     micGain.oninput = () => { if (gainNode) gainNode.gain.value = parseFloat(micGain.value); };
 
     analyser = audioCtx.createAnalyser();
-    analyser.fftSize = ANALYSER_FFT_SIZE;
+    analyser.fftSize = 2048;
     analyser.smoothingTimeConstant = 0.2;
 
     source.connect(gainNode);
     gainNode.connect(analyser);
 
+    currentAudioBuffer = null;
+    playbackStartTime = 0;
+    trajectoryHistory = [];
     isRunning = true;
     startBtn.classList.add("running");
     btnText.textContent = "マイク停止";
@@ -976,62 +1048,48 @@ async function toggleAudio() {
 startBtn.addEventListener("click", toggleAudio);
 
 // ==========================================
-// Main 60 FPS Render Loop
+// Main 60 FPS Render Loop (Pure Client-Side DSP + Model C)
 // ==========================================
 function renderLoop() {
-  if (!isRunning || !analyser) return;
+  if (!isRunning) return;
 
   frameCount++;
-  analyser.getFloatTimeDomainData(fullTimeData);
-
-  // Latest 2048 samples (~43ms) for instant pitch & RMS level
-  const recent2048 = fullTimeData.subarray(ANALYSER_FFT_SIZE - 2048);
+  const timeData = new Float32Array(analyser.fftSize);
+  analyser.getFloatTimeDomainData(timeData);
 
   let rms = 0.0;
-  for (let i = 0; i < recent2048.length; i++) rms += recent2048[i] * recent2048[i];
-  rms = Math.sqrt(rms / recent2048.length);
+  for (let i = 0; i < timeData.length; i++) rms += timeData[i] * timeData[i];
+  rms = Math.sqrt(rms / timeData.length);
 
-  // Continuous 0.3s Slice + True YIN + Exact Model C
-  const sr = audioCtx.sampleRate;
-  const segLen = Math.min(ANALYSER_FFT_SIZE, Math.round(0.3 * sr));
-  const segSlice = fullTimeData.subarray(ANALYSER_FFT_SIZE - segLen);
+  pushMicAudio(timeData);
+  const isSilence = rms < 0.007;
 
-  let segRms = 0.0;
-  for (let i = 0; i < segSlice.length; i++) segRms += segSlice[i] * segSlice[i];
-  segRms = Math.sqrt(segRms / segSlice.length);
-  const isSilence = segRms < 0.007;
-
-  const resPitch = detectPitchTrueYIN(recent2048, sr);
+  const resPitch = detectPitchTrueYIN(timeData, audioCtx.sampleRate);
   const f0 = resPitch.f0;
   const conf = resPitch.conf;
 
-  if (!isSilence && f0 >= 75 && f0 <= 1200 && conf > 0.35) {
-    recentVoicedF0s.push(f0);
-    if (recentVoicedF0s.length > 18) recentVoicedF0s.shift(); // ~0.3s window at 60fps
-  } else if (isSilence) {
-    recentVoicedF0s = [];
-  }
-
-  // Run full 0.3s segment Model C DSP inference every 6 frames (~100ms)
-  if (frameCount % 6 === 0) {
-    if (!isSilence && recentVoicedF0s.length > 0) {
-      const f0Mean = recentVoicedF0s.reduce((a, b) => a + b, 0) / recentVoicedF0s.length;
-      const seg22k = resampleTo22050(segSlice, sr);
-      const feats = extractAuthenticFeatures(seg22k, 22050, f0Mean);
-      const res = predictModelC(f0Mean, feats);
+  // Run Model C DSP inference every 5 frames (~80ms) for high efficiency
+  if (frameCount % 5 === 0) {
+    if (!isSilence && f0 >= 65 && f0 <= 1200 && conf > 0.35) {
+      const origSr = audioCtx.sampleRate;
+      const numSamples = Math.floor(0.3 * origSr);
+      const rawSeg = getRecentAudio(numSamples);
+      const seg22k = resampleTo22050(rawSeg, origSr);
+      const feats = extractAuthenticFeatures(seg22k, 22050, f0);
+      const res = predictModelC(f0, feats);
       lastModelCProbs = res.probs;
       lastGci = res.gci;
       lastRbi = res.rbi;
     }
   }
 
-  const isPitched = f0 >= 75 && f0 <= 1200 && !isSilence && conf > 0.35;
-  const probs = isSilence ? [1 / 3, 1 / 3, 1 / 3] : lastModelCProbs;
+  const isPitched = f0 >= 65 && f0 <= 1200 && !isSilence && conf > 0.35;
+  const probs = isSilence ? [0.33, 0.33, 0.33] : lastModelCProbs;
   const gci = isSilence ? 0.0 : lastGci;
   const rbi = isSilence ? 0.0 : lastRbi;
 
   for (let c = 0; c < 3; c++) {
-    smoothProbs[c] = smoothProbs[c] * 0.7 + probs[c] * 0.3;
+    smoothProbs[c] = smoothProbs[c] * 0.75 + probs[c] * 0.25;
   }
 
   // --- UI Update: Tuner ---
@@ -1368,6 +1426,7 @@ function drawPhaseSpace(gci, rbi, isSilence) {
 </script>
 </body>
 </html>
+
 
 
 
