@@ -137,128 +137,334 @@ main{flex:1;min-height:0;display:flex;gap:8px}
 // ============================================================================
 
 const MODEL_C_PARAMS = {
-  "version": "v3_hybrid",
-  "tree_weight": 0.75,
-  "lr_weight": 0.25,
-  "feat_names": [
-    "alpha_ratio",
-    "hammarberg_index",
-    "cpp",
-    "h1h2",
-    "sf_ratio",
-    "h1_a3"
+ "version": "v3_hybrid",
+ "tree_weight": 0.75,
+ "lr_weight": 0.25,
+ "feat_names": [
+  "alpha_ratio",
+  "hammarberg_index",
+  "cpp",
+  "h1h2",
+  "sf_ratio",
+  "h1_a3"
+ ],
+ "log_features": [
+  "alpha_ratio",
+  "sf_ratio"
+ ],
+ "m_ref": 63.77796465466897,
+ "med_m": 60.88885686104644,
+ "mean": [
+  -0.09843514269924729,
+  19.225669815279474,
+  0.3409735006507904,
+  4.4789645238014,
+  -2.6619930639434797,
+  25.720562494892828
+ ],
+ "std": [
+  1.1322533769578453,
+  12.032656849241745,
+  0.19103063634422093,
+  13.849860725991665,
+  0.8883382370174473,
+  18.782611263242117
+ ],
+ "gamma": [
+  0.050278456291324096,
+  -0.2718410437159914,
+  0.007735597184890703,
+  -0.22941225932812934,
+  0.006850249057193781,
+  -0.3875512644041589
+ ],
+ "tree": {
+  "children_left": [
+   1,
+   2,
+   3,
+   -1,
+   -1,
+   6,
+   7,
+   -1,
+   -1,
+   10,
+   -1,
+   -1,
+   13,
+   14,
+   15,
+   -1,
+   -1,
+   18,
+   -1,
+   -1,
+   21,
+   22,
+   -1,
+   -1,
+   25,
+   -1,
+   -1
   ],
-  "log_features": [
-    "alpha_ratio",
-    "sf_ratio"
+  "children_right": [
+   12,
+   5,
+   4,
+   -1,
+   -1,
+   9,
+   8,
+   -1,
+   -1,
+   11,
+   -1,
+   -1,
+   20,
+   17,
+   16,
+   -1,
+   -1,
+   19,
+   -1,
+   -1,
+   24,
+   23,
+   -1,
+   -1,
+   26,
+   -1,
+   -1
   ],
-  "m_ref": 63.77796465466897,
-  "med_m": 60.88885686104644,
-  "mean": [
-    -0.09843514269924729,
-    19.225669815279474,
-    0.3409735006507904,
-    4.4789645238014,
-    -2.6619930639434797,
-    25.720562494892828
+  "feature": [
+   2,
+   0,
+   1,
+   -2,
+   -2,
+   2,
+   2,
+   -2,
+   -2,
+   1,
+   -2,
+   -2,
+   1,
+   0,
+   2,
+   -2,
+   -2,
+   0,
+   -2,
+   -2,
+   2,
+   0,
+   -2,
+   -2,
+   0,
+   -2,
+   -2
   ],
-  "std": [
-    1.1322533769578453,
-    12.032656849241745,
-    0.19103063634422093,
-    13.849860725991665,
-    0.8883382370174473,
-    18.782611263242117
+  "threshold": [
+   -0.5228572189807892,
+   -1.0381823778152466,
+   -1.160827398300171,
+   -2.0,
+   -2.0,
+   -0.6617289483547211,
+   -1.4559493660926819,
+   -2.0,
+   -2.0,
+   1.36062753200531,
+   -2.0,
+   -2.0,
+   0.1476420909166336,
+   0.5867235660552979,
+   0.019972908310592175,
+   -2.0,
+   -2.0,
+   1.7163174152374268,
+   -2.0,
+   -2.0,
+   -0.2552577257156372,
+   0.0668131373822689,
+   -2.0,
+   -2.0,
+   -0.14797817170619965,
+   -2.0,
+   -2.0
   ],
-  "gamma": [
-    0.050278456291324096,
-    -0.2718410437159914,
-    0.007735597184890703,
-    -0.22941225932812934,
-    0.006850249057193781,
-    -0.3875512644041589
+  "value": [
+   [
+    0.22457648777841935,
+    0.3431925850831529,
+    0.4322309271384277
+   ],
+   [
+    0.907181790376668,
+    0.034883914007516746,
+    0.05793429561581523
+   ],
+   [
+    0.20701010845410192,
+    0.1627487648940105,
+    0.6302411266518876
+   ],
+   [
+    0.07882451398467326,
+    0.0,
+    0.9211754860153267
+   ],
+   [
+    0.3093274776913679,
+    0.2926543563880754,
+    0.39801816592055667
+   ],
+   [
+    0.9345818264174905,
+    0.02988013905760127,
+    0.035538034524908224
+   ],
+   [
+    0.9531159315412038,
+    0.0127664058038617,
+    0.034117662654934516
+   ],
+   [
+    0.7378059333805085,
+    0.014241387611090783,
+    0.24795267900840084
+   ],
+   [
+    0.9620787339952317,
+    0.012705006097975247,
+    0.02521625990679305
+   ],
+   [
+    0.7427591136262282,
+    0.20700240726564176,
+    0.05023847910813005
+   ],
+   [
+    0.8053910266658646,
+    0.1276814696477465,
+    0.06692750368638889
+   ],
+   [
+    0.5542201106432108,
+    0.4457798893567892,
+    0.0
+   ],
+   [
+    0.05542598601498664,
+    0.41959188378762624,
+    0.5249821301973872
+   ],
+   [
+    0.03104267400150478,
+    0.18206297036466323,
+    0.7868943556338319
+   ],
+   [
+    0.029903393563767793,
+    0.1206014026109886,
+    0.8494952038252436
+   ],
+   [
+    0.06347891034475137,
+    0.2950792064450304,
+    0.6414418832102182
+   ],
+   [
+    0.01982351800329951,
+    0.06822053943073715,
+    0.9119559425659634
+   ],
+   [
+    0.041280218538144633,
+    0.7343550279899095,
+    0.2243647534719459
+   ],
+   [
+    0.0632883159360871,
+    0.5969149335929315,
+    0.33979675047098146
+   ],
+   [
+    0.001692127914181392,
+    0.9815818015710872,
+    0.01672607051473143
+   ],
+   [
+    0.09205960255954253,
+    0.7764565758266175,
+    0.13148382161383998
+   ],
+   [
+    0.5353044637759029,
+    0.3128341929078411,
+    0.15186134331625595
+   ],
+   [
+    0.3000635766117027,
+    0.35218591019702833,
+    0.347750513191269
+   ],
+   [
+    0.6333400304412674,
+    0.2964345442319378,
+    0.07022542532679474
+   ],
+   [
+    0.02018778408908754,
+    0.8516325940043284,
+    0.12817962190658402
+   ],
+   [
+    0.024150122005317323,
+    0.6291983349406641,
+    0.3466515430540186
+   ],
+   [
+    0.018863854262803414,
+    0.9259542082098133,
+    0.05518193752738327
+   ]
+  ]
+ },
+ "lr": {
+  "coef": [
+   [
+    0.36868749258172223,
+    0.365789320555011,
+    -3.0458461705275117
+   ],
+   [
+    0.3236761415639967,
+    0.49542854083409266,
+    1.232670910911197
+   ],
+   [
+    -0.6923636341457184,
+    -0.8612178613891015,
+    1.8131752596163118
+   ]
   ],
-  "tree": {
-    "children_left": [
-      1, 2, 3, -1, -1, 6, 7, -1, -1, 10, -1, -1, 13, 14, 15, -1, -1, 18, -1, -1, 21, 22, -1, -1, 25, -1, -1
-    ],
-    "children_right": [
-      12, 5, 4, -1, -1, 9, 8, -1, -1, 11, -1, -1, 20, 17, 16, -1, -1, 19, -1, -1, 24, 23, -1, -1, 26, -1, -1
-    ],
-    "feature": [
-      2, 0, 1, -2, -2, 2, 2, -2, -2, 1, -2, -2, 1, 0, 2, -2, -2, 2, -2, -2, 0, 2, -2, -2, 0, -2, -2
-    ],
-    "threshold": [
-      -0.09322214871644974,
-      -0.12642277777194977,
-      0.6558663845062256,
-      -2,
-      -2,
-      0.5404179394245148,
-      0.22699256241321564,
-      -2,
-      -2,
-      -0.03848142363131046,
-      -2,
-      -2,
-      0.016399994492530823,
-      0.5658661723136902,
-      -0.18731366097927094,
-      -2,
-      -2,
-      -0.19830575585365295,
-      -2,
-      -2,
-      -0.03373516537249088,
-      -0.22019777446985245,
-      -2,
-      -2,
-      0.25880467891693115,
-      -2,
-      -2
-    ],
-    "value": [
-      [0.08986928, 0.49019608, 0.41993464],
-      [0.03225806, 0.20967742, 0.75806452],
-      [0.0, 0.08333333, 0.91666667],
-      [0.0, 0.0, 1.0],
-      [0.0, 0.2, 0.8],
-      [0.11111111, 0.5, 0.38888889],
-      [0.0, 0.83333333, 0.16666667],
-      [0.0, 1.0, 0.0],
-      [0.0, 0.66666667, 0.33333333],
-      [0.16666667, 0.33333333, 0.5],
-      [0.0, 1.0, 0.0],
-      [0.2, 0.2, 0.6],
-      [0.27857143, 0.67857143, 0.04285714],
-      [0.48979592, 0.51020408, 0.0],
-      [0.6, 0.4, 0.0],
-      [0.85714286, 0.14285714, 0.0],
-      [0.375, 0.625, 0.0],
-      [0.35714286, 0.64285714, 0.0],
-      [0.55555556, 0.44444444, 0.0],
-      [0.0, 1.0, 0.0],
-      [0.16483516, 0.76923077, 0.06593407],
-      [0.03703704, 0.90740741, 0.05555556],
-      [0.08333333, 0.75, 0.16666667],
-      [0.02380952, 0.95238095, 0.02380952],
-      [0.35135135, 0.56756757, 0.08108108],
-      [0.5, 0.44444444, 0.05555556],
-      [0.21052632, 0.68421053, 0.10526316]
-    ]
-  },
-  "lr": {
-    "coef": [
-      [0.7259640989396657, -1.060136979603098, -1.2185289947938367],
-      [-0.1087405234190821, 0.6758603673756209, 0.6384462194165502],
-      [-0.6172235755205835, 0.3842766122274768, 0.5800827753772863]
-    ],
-    "intercept": [
-      -1.0064185916090405,
-      0.610106133855428,
-      0.39631245775373874
-    ]
-  }
+  "intercept": [
+   -1.0064185916090405,
+   0.610106133855428,
+   0.39631245775373874
+  ]
+ },
+ "med_x": [
+  -0.20907810038376573,
+  18.436784744262695,
+  0.2525180848651323,
+  3.487439424213342,
+  -2.5481779788646435,
+  25.44529179560567
+ ]
 };
 
 const NOTE_STRINGS = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
@@ -391,52 +597,71 @@ function ifft2048(real, imag) {
 }
 
 function resampleTo22050(inputData, origSr) {
-  if (origSr === 22050 && inputData.length === 6615) return inputData;
-  const targetSamples = 6615;
-  const out = new Float32Array(targetSamples);
+  // ローパス(窓付きsinc)付きの正規リサンプル。折り返し雑音を避ける。
+  const TARGET = 22050;
+  if (origSr === TARGET) return Float32Array.from(inputData);
   const inLen = inputData.length;
+  const ratio = origSr / TARGET;
+  const outLen = Math.round(inLen / ratio);
+  const out = new Float32Array(outLen);
   if (inLen === 0) return out;
-  const ratio = (inLen - 1) / (targetSamples - 1);
-  for (let i = 0; i < targetSamples; i++) {
-    const origPos = i * ratio;
-    const idx0 = Math.floor(origPos);
-    const idx1 = Math.min(idx0 + 1, inLen - 1);
-    const frac = origPos - idx0;
-    out[i] = inputData[idx0] * (1.0 - frac) + inputData[idx1] * frac;
+  const fc = Math.min(1.0, TARGET / origSr) * 0.95; // 入力ナイキストに対する相対カットオフ
+  const W = Math.ceil(8 / fc);
+  for (let i = 0; i < outLen; i++) {
+    const center = i * ratio;
+    const c0 = Math.floor(center);
+    let acc = 0.0, wsum = 0.0;
+    for (let k = c0 - W + 1; k <= c0 + W; k++) {
+      const d = center - k;
+      const x = Math.PI * fc * d;
+      const sinc = Math.abs(d) < 1e-12 ? 1.0 : Math.sin(x) / x;
+      const win = 0.5 * (1.0 + Math.cos(Math.PI * d / W));
+      const h = sinc * win;
+      const idx = k < 0 ? 0 : (k >= inLen ? inLen - 1 : k);
+      acc += inputData[idx] * h;
+      wsum += h;
+    }
+    out[i] = wsum !== 0 ? acc / wsum : 0.0;
   }
   return out;
 }
 
+// librosa.stft の既定窓 (scipy get_window('hann', 2048, fftbins=True) = 周期Hann)
 const HANN_WINDOW_2048 = new Float32Array(2048);
 for (let i = 0; i < 2048; i++) {
-  HANN_WINDOW_2048[i] = 0.5 * (1.0 - Math.cos(2.0 * Math.PI * i / 2047.0));
+  HANN_WINDOW_2048[i] = 0.5 * (1.0 - Math.cos(2.0 * Math.PI * i / 2048.0));
 }
 
+// features_common_v9.py と同じ定義で6特徴量を計算する。
+// 計算不能な特徴量は NaN を返す (predictModelC 側で Python と同じく med_x に置換)。
 function extractAuthenticFeatures(y_seg, sr, f0) {
   const n_fft = 2048;
   const hop_length = 512;
-  const pad_width = 1024;
+  const pad_width = n_fft / 2;
   const inLen = y_seg.length;
-  
+
+  // normalize_audio: RMS を 0.1 に正規化
+  let ss = 0.0;
+  for (let i = 0; i < inLen; i++) ss += y_seg[i] * y_seg[i];
+  const rmsIn = inLen > 0 ? Math.sqrt(ss / inLen) : 0.0;
+  const gain = rmsIn > 1e-6 ? 0.1 / rmsIn : 0.0;
+
+  // librosa.stft(center=True, pad_mode='constant') 相当: 両端ゼロ埋め
   const padded_len = inLen + 2 * pad_width;
   const y_padded = new Float32Array(padded_len);
-  for (let i = 0; i < pad_width; i++) {
-    y_padded[i] = y_seg[Math.min(inLen - 1, pad_width - i)];
-    y_padded[padded_len - 1 - i] = y_seg[Math.max(0, inLen - 1 - (pad_width - i))];
-  }
-  for (let i = 0; i < inLen; i++) {
-    y_padded[pad_width + i] = y_seg[i];
-  }
-  
+  for (let i = 0; i < inLen; i++) y_padded[pad_width + i] = y_seg[i] * gain;
+
   const num_frames = Math.floor((padded_len - n_fft) / hop_length) + 1;
-  const num_bins = 1025;
+  const num_bins = n_fft / 2 + 1;
   const binHz = sr / n_fft;
-  
+
   const mag_spec = [];
-  const ceps_frames = [];
+  const mean_ceps = new Float64Array(n_fft);
   const rBuf = new Float32Array(n_fft);
   const iBuf = new Float32Array(n_fft);
-  
+  const cReal = new Float32Array(n_fft);
+  const cImag = new Float32Array(n_fft);
+
   for (let f = 0; f < num_frames; f++) {
     const start = f * hop_length;
     for (let i = 0; i < n_fft; i++) {
@@ -444,159 +669,113 @@ function extractAuthenticFeatures(y_seg, sr, f0) {
       iBuf[i] = 0.0;
     }
     fft2048(rBuf, iBuf);
-    
+
     const mag = new Float32Array(num_bins);
-    const log_pwr = new Float32Array(n_fft);
     for (let k = 0; k < num_bins; k++) {
       const pwr = rBuf[k] * rBuf[k] + iBuf[k] * iBuf[k];
       mag[k] = Math.sqrt(pwr);
       const lp = Math.log(pwr + 1e-10);
-      log_pwr[k] = lp;
-      if (k > 0 && k < 1024) {
-        log_pwr[2048 - k] = lp;
-      }
+      cReal[k] = lp;
+      if (k > 0 && k < n_fft / 2) cReal[n_fft - k] = lp;
     }
     mag_spec.push(mag);
-    
-    const cReal = new Float32Array(log_pwr);
-    const cImag = new Float32Array(n_fft);
+
+    cImag.fill(0.0);
     ifft2048(cReal, cImag);
-    ceps_frames.push(cReal);
+    for (let q = 0; q < n_fft; q++) mean_ceps[q] += cReal[q] / num_frames;
   }
-  
-  // 1. alpha_ratio
-  let lowEnergy = 0.0, highEnergy = 0.0;
+
+  // 1. alpha_ratio: (1000-5000Hz) / (50-1000Hz)  ※1000Hzは両方に含まれる(Python準拠)
+  let lowE = 0.0, highE = 0.0;
+  // 2. hammarberg / 3. sf_ratio
+  let midMax = 0.0, highMax = 0.0;
+  let sfE = 0.0, totE = 0.0;
   for (let f = 0; f < num_frames; f++) {
     const mag = mag_spec[f];
     for (let k = 0; k < num_bins; k++) {
       const freq = k * binHz;
-      if (freq >= 50.0 && freq <= 1000.0) lowEnergy += mag[k];
-      else if (freq > 1000.0 && freq <= 5000.0) highEnergy += mag[k];
+      const v = mag[k];
+      totE += v;
+      if (freq >= 50.0 && freq <= 1000.0) lowE += v;
+      if (freq >= 1000.0 && freq <= 5000.0) highE += v;
+      if (freq <= 2000.0) { if (v > midMax) midMax = v; }
+      if (freq >= 2000.0 && freq <= 5000.0) { if (v > highMax) highMax = v; }
+      if (freq >= 2500.0 && freq <= 3500.0) sfE += v;
     }
   }
-  const alpha_ratio = lowEnergy > 0 ? (highEnergy / lowEnergy) : 0.1;
-  
-  // 2. hammarberg_index
-  let midMax = 1e-10, highMax = 1e-10;
-  for (let f = 0; f < num_frames; f++) {
-    const mag = mag_spec[f];
-    for (let k = 0; k < num_bins; k++) {
-      const freq = k * binHz;
-      if (freq <= 2000.0) {
-        if (mag[k] > midMax) midMax = mag[k];
-      } else if (freq <= 5000.0) {
-        if (mag[k] > highMax) highMax = mag[k];
-      }
-    }
-  }
-  const hammarberg_index = 20.0 * Math.log10(midMax / highMax);
-  
-  // 3. sf_ratio
-  let sfEnergy = 0.0, totEnergy = 0.0;
-  for (let f = 0; f < num_frames; f++) {
-    const mag = mag_spec[f];
-    for (let k = 0; k < num_bins; k++) {
-      const freq = k * binHz;
-      totEnergy += mag[k];
-      if (freq >= 2500.0 && freq <= 3500.0) sfEnergy += mag[k];
-    }
-  }
-  const sf_ratio = totEnergy > 0 ? (sfEnergy / totEnergy) : 0.08;
-  
-  // 4. CPP
+  const alpha_ratio = lowE > 0 ? (highE / (lowE + 1e-10)) : NaN;
+  let hammarberg_index = highMax > 0 ? 20.0 * Math.log10(midMax / highMax) : NaN;
+  if (!isFinite(hammarberg_index)) hammarberg_index = NaN;
+  const sf_ratio = totE > 0 ? (sfE / totE) : 0.0;
+
+  // 4. CPP: フレーム平均ケプストラム上で探索 (extract_cpp と同一)。探索区間は [q_min, q_max)
   const q_min = Math.floor(sr / 600.0);
-  const q_max = Math.min(Math.floor(sr / 75.0), 1024);
-  const n_q = q_max - q_min + 1;
-  
-  let sum_q = 0.0, sum_q2 = 0.0;
-  for (let q = q_min; q <= q_max; q++) {
-    sum_q += q;
-    sum_q2 += q * q;
-  }
-  const denom_reg = n_q * sum_q2 - sum_q * sum_q;
-  
-  let cppSum = 0.0;
-  for (let f = 0; f < num_frames; f++) {
-    const c = ceps_frames[f];
-    let sum_y = 0.0, sum_qy = 0.0;
-    let maxVal = -1e9;
-    let maxQ = q_min;
-    
-    for (let q = q_min; q <= q_max; q++) {
-      const val = c[q];
-      sum_y += val;
-      sum_qy += q * val;
-      if (val > maxVal) {
-        maxVal = val;
-        maxQ = q;
-      }
+  const q_max = Math.min(Math.floor(sr / 75.0), n_fft / 2);
+  let cpp = 0.0;
+  if (q_max > q_min) {
+    let peakIdx = q_min, peakVal = -Infinity;
+    let n = 0, sx = 0.0, sy = 0.0, sxx = 0.0, sxy = 0.0;
+    for (let q = q_min; q < q_max; q++) {
+      const y = mean_ceps[q];
+      if (y > peakVal) { peakVal = y; peakIdx = q; }
+      n++; sx += q; sy += y; sxx += q * q; sxy += q * y;
     }
-    const slope = denom_reg > 1e-9 ? (n_q * sum_qy - sum_q * sum_y) / denom_reg : 0.0;
-    const intercept = (sum_y - slope * sum_q) / n_q;
-    const baseline = intercept + slope * maxQ;
-    const prom = Math.max(0.0, maxVal - baseline);
-    cppSum += prom;
+    if (n > 1) {
+      const den = n * sxx - sx * sx;
+      const slope = den !== 0 ? (n * sxy - sx * sy) / den : 0.0;
+      const intercept = (sy - slope * sx) / n;
+      cpp = Math.max(peakVal - (intercept + slope * peakIdx), 0.0);
+    }
   }
-  const cpp = num_frames > 0 ? (cppSum / num_frames) : 0.3;
-  
-  // 5. H1-H2 & H1-A3
-  const avg_mag = new Float32Array(num_bins);
-  for (let f = 0; f < num_frames; f++) {
-    const mag = mag_spec[f];
-    for (let k = 0; k < num_bins; k++) avg_mag[k] += mag[k];
-  }
-  for (let k = 0; k < num_bins; k++) avg_mag[k] /= num_frames;
-  
-  let h1 = -100.0, h2 = -100.0, a3 = -100.0;
-  if (f0 && f0 > 65.0) {
+
+  // 5. H1-H2 / H1-A3 (Praat LTAS の近似: 平均スペクトル上のピーク)
+  let h1h2 = NaN, h1_a3 = NaN;
+  if (f0 && f0 > 0) {
+    const avg_mag = new Float32Array(num_bins);
+    for (let f = 0; f < num_frames; f++) {
+      const mag = mag_spec[f];
+      for (let k = 0; k < num_bins; k++) avg_mag[k] += mag[k];
+    }
+    for (let k = 0; k < num_bins; k++) avg_mag[k] /= num_frames;
+
+    let h1 = -Infinity, h2 = -Infinity, a3 = -Infinity;
     const h1_min = f0 * 0.85, h1_max = f0 * 1.15;
     const h2_min = f0 * 2.0 * 0.85, h2_max = f0 * 2.0 * 1.15;
-    
     for (let k = 0; k < num_bins; k++) {
       const freq = k * binHz;
       const db = 20.0 * Math.log10(avg_mag[k] + 1e-10);
-      if (freq >= h1_min && freq <= h1_max) {
-        if (db > h1) h1 = db;
-      }
-      if (freq >= h2_min && freq <= h2_max) {
-        if (db > h2) h2 = db;
-      }
-      if (freq >= 2500.0 && freq <= 3500.0) {
-        if (db > a3) a3 = db;
-      }
+      if (freq >= h1_min && freq <= h1_max && db > h1) h1 = db;
+      if (freq >= h2_min && freq <= h2_max && db > h2) h2 = db;
+      if (freq >= 2500.0 && freq <= 3500.0 && db > a3) a3 = db;
     }
+    if (isFinite(h1) && isFinite(h2)) h1h2 = h1 - h2;
+    if (isFinite(h1) && isFinite(a3)) h1_a3 = h1 - a3;
   }
-  const h1h2 = (h1 > -100.0 && h2 > -100.0) ? (h1 - h2) : 4.5;
-  const h1_a3 = (h1 > -100.0 && a3 > -100.0) ? (h1 - a3) : 25.0;
-  
-  return {
-    alpha_ratio,
-    hammarberg_index,
-    cpp,
-    h1h2,
-    sf_ratio,
-    h1_a3
-  };
+
+  return { alpha_ratio, hammarberg_index, cpp, h1h2, sf_ratio, h1_a3 };
 }
 
 // Model C Predictor Function (Tree 75% + LR 25%)
+// compare_models_v10_pc2d.Pc2dF0TreePredictor / model_c.ModelC.predict と同一の計算順序。
 function predictModelC(f0, feats) {
   const p = MODEL_C_PARAMS;
   const m = (f0 && f0 > 0) ? (12.0 * Math.log2(f0 / 440.0) + 69.0) : NaN;
   const m_eff = isFinite(m) ? m : p.med_m;
 
-  const x = [
-    feats.alpha_ratio > 0 ? Math.log(feats.alpha_ratio) : -0.2,
+  // log変換 (alpha_ratio, sf_ratio) → 非有限値は med_x で置換 (Python と同じ順序)
+  const raw = [
+    feats.alpha_ratio > 0 ? Math.log(feats.alpha_ratio) : NaN,
     feats.hammarberg_index,
     feats.cpp,
     feats.h1h2,
-    feats.sf_ratio > 0 ? Math.log(feats.sf_ratio) : -2.5,
+    feats.sf_ratio > 0 ? Math.log(feats.sf_ratio) : NaN,
     feats.h1_a3
   ];
 
   const Z = [];
   for (let j = 0; j < 6; j++) {
-    const x_res = x[j] - p.gamma[j] * (m_eff - p.m_ref);
+    const xj = isFinite(raw[j]) ? raw[j] : p.med_x[j];
+    const x_res = xj - p.gamma[j] * (m_eff - p.m_ref);
     Z.push((x_res - p.mean[j]) / p.std[j]);
   }
 
@@ -608,13 +787,7 @@ function predictModelC(f0, feats) {
   const t = p.tree;
   let node = 0;
   while (t.children_left[node] !== -1) {
-    const feat = t.feature[node];
-    const th = t.threshold[node];
-    if (z_in[feat] <= th) {
-      node = t.children_left[node];
-    } else {
-      node = t.children_right[node];
-    }
+    node = (z_in[t.feature[node]] <= t.threshold[node]) ? t.children_left[node] : t.children_right[node];
   }
   const p_tree = t.value[node];
 
@@ -622,9 +795,7 @@ function predictModelC(f0, feats) {
   const logits = [0, 0, 0];
   for (let c = 0; c < 3; c++) {
     let sum = lr.intercept[c];
-    for (let k = 0; k < 3; k++) {
-      sum += lr.coef[c][k] * z_in[k];
-    }
+    for (let k = 0; k < 3; k++) sum += lr.coef[c][k] * z_in[k];
     logits[c] = sum;
   }
   const maxLogit = Math.max(...logits);
@@ -853,6 +1024,7 @@ let currentAudioBuffer = null;
 let frameCount = 0;
 let lastModelCProbs = [1 / 3, 1 / 3, 1 / 3];
 let lastGci = 0.0, lastRbi = 0.0;
+let f0Hist = []; // {t, f0}: 直近0.3秒の有声F0 (正解の f0_mean 相当を作る)
 
 // Continuous 16384-sample Analyser buffer (covers >0.3s at 44.1kHz/48kHz without ring-buffer overlap bugs)
 const ANALYSER_FFT_SIZE = 16384;
@@ -863,6 +1035,7 @@ function resetSessionState() {
   lastModelCProbs = [1 / 3, 1 / 3, 1 / 3];
   lastGci = 0.0;
   lastRbi = 0.0;
+  f0Hist = [];
   smoothCents = 0;
   smoothF0 = 0;
   trajectoryHistory = [];
@@ -1057,18 +1230,24 @@ function renderLoop() {
   const f0 = resPitch.f0;
   const conf = resPitch.conf;
 
-  // Run pre-fix Model C DSP inference every 5 frames (~80ms) on clean 0.3s slice
-  if (frameCount % 5 === 0) {
-    if (!isSilence && f0 >= 65 && f0 <= 1200 && conf > 0.35) {
-      const segLen = Math.min(ANALYSER_FFT_SIZE, Math.round(0.3 * sr));
-      const rawSeg = fullTimeData.subarray(ANALYSER_FFT_SIZE - segLen);
-      const seg22k = resampleTo22050(rawSeg, sr);
-      const feats = extractAuthenticFeatures(seg22k, 22050, f0);
-      const res = predictModelC(f0, feats);
-      lastModelCProbs = res.probs;
-      lastGci = res.gci;
-      lastRbi = res.rbi;
-    }
+  // 直近0.3秒の有声F0を蓄積 (Python の f0_mean = 0.3秒窓内 有声フレームの平均 Hz)
+  const nowSec = performance.now() / 1000;
+  const voicedNow = !isSilence && f0 >= 65 && f0 <= 1200 && conf > 0.35;
+  if (voicedNow) f0Hist.push({ t: nowSec, f0 });
+  while (f0Hist.length && nowSec - f0Hist[0].t > 0.3) f0Hist.shift();
+
+  // Model C 推論は 5フレームごと(~80ms)、直近0.3秒の切り出しに対して実行
+  if (frameCount % 5 === 0 && voicedNow) {
+    const segLen = Math.min(ANALYSER_FFT_SIZE, Math.round(0.3 * sr));
+    const rawSeg = fullTimeData.subarray(ANALYSER_FFT_SIZE - segLen);
+    const seg22k = resampleTo22050(rawSeg, sr);
+    let f0Mean = f0;
+    if (f0Hist.length) f0Mean = f0Hist.reduce((a, b) => a + b.f0, 0) / f0Hist.length;
+    const feats = extractAuthenticFeatures(seg22k, 22050, f0Mean);
+    const res = predictModelC(f0Mean, feats);
+    lastModelCProbs = res.probs;
+    lastGci = res.gci;
+    lastRbi = res.rbi;
   }
 
   const isPitched = f0 >= 65 && f0 <= 1200 && !isSilence && conf > 0.35;
