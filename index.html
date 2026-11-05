@@ -728,7 +728,10 @@ function extractAuthenticFeatures(y_seg, sr, f0) {
     }
   }
 
-  // 5. H1-H2 / H1-A3 (Praat LTAS の近似: 平均スペクトル上のピーク)
+  // 5. H1-H2 / H1-A3 (Python側 Praat LTAS の読み方に合わせた較正版, 2026-11-05)
+  //    H1/H2 は平均スペクトル(dB)上の正確な倍音周波数を線形補間で読み、
+  //    A3 は 2-4kHz 帯の最大値で近似する。最後に Python 特徴量への
+  //    アフィン較正 (自歌唱4テイク 2,717窓で fit) を適用する。
   let h1h2 = NaN, h1_a3 = NaN;
   if (f0 && f0 > 0) {
     const avg_mag = new Float32Array(num_bins);
@@ -738,18 +741,27 @@ function extractAuthenticFeatures(y_seg, sr, f0) {
     }
     for (let k = 0; k < num_bins; k++) avg_mag[k] /= num_frames;
 
-    let h1 = -Infinity, h2 = -Infinity, a3 = -Infinity;
-    const h1_min = f0 * 0.85, h1_max = f0 * 1.15;
-    const h2_min = f0 * 2.0 * 0.85, h2_max = f0 * 2.0 * 1.15;
+    const dbAt = (freq) => {
+      const x = freq / binHz;
+      const k = Math.floor(x);
+      if (k < 0) return 20.0 * Math.log10(avg_mag[0] + 1e-10);
+      if (k >= num_bins - 1) return 20.0 * Math.log10(avg_mag[num_bins - 1] + 1e-10);
+      const fr = x - k;
+      const d0 = 20.0 * Math.log10(avg_mag[k] + 1e-10);
+      const d1 = 20.0 * Math.log10(avg_mag[k + 1] + 1e-10);
+      return d0 * (1.0 - fr) + d1 * fr;
+    };
+    let a3 = -Infinity;
     for (let k = 0; k < num_bins; k++) {
       const freq = k * binHz;
-      const db = 20.0 * Math.log10(avg_mag[k] + 1e-10);
-      if (freq >= h1_min && freq <= h1_max && db > h1) h1 = db;
-      if (freq >= h2_min && freq <= h2_max && db > h2) h2 = db;
-      if (freq >= 2500.0 && freq <= 3500.0 && db > a3) a3 = db;
+      if (freq >= 2000.0 && freq <= 4000.0) {
+        const db = 20.0 * Math.log10(avg_mag[k] + 1e-10);
+        if (db > a3) a3 = db;
+      }
     }
-    if (isFinite(h1) && isFinite(h2)) h1h2 = h1 - h2;
-    if (isFinite(h1) && isFinite(a3)) h1_a3 = h1 - a3;
+    const h1 = dbAt(f0), h2 = dbAt(2.0 * f0);
+    if (isFinite(h1) && isFinite(h2)) h1h2 = 1.008173 * (h1 - h2) - 0.570507;
+    if (isFinite(h1) && isFinite(a3)) h1_a3 = 0.954226 * (h1 - a3) + 10.540863;
   }
 
   return { alpha_ratio, hammarberg_index, cpp, h1h2, sf_ratio, h1_a3 };
@@ -812,7 +824,6 @@ function predictModelC(f0, feats) {
 // Used for Live Microphone Input
 // ==========================================
 function detectPitchTrueYIN(buffer, sampleRate) {
-  const threshold = 0.20;
   const minF0 = 65.0;   // C2
   const maxF0 = 1050.0; // C6
   const minTau = Math.floor(sampleRate / maxF0);
@@ -841,29 +852,19 @@ function detectPitchTrueYIN(buffer, sampleRate) {
     cmnd[tau] = runningSum > 1e-9 ? (d[tau] * tau) / runningSum : 1.0;
   }
 
-  // 3. Absolute thresholding: find first minimum below threshold
+  // 3. 探索範囲内で最も深い CMND の谷を採用する (2026-11-05 較正で変更)。
+  //    最初に閾値を割った谷を選ぶ方式は、第2倍音が支配的な声で半分の周期に
+  //    張り付きオクターブ上の誤りになった (自歌唱4テイクで有声窓の 7-10%)。
+  //    最深の谷の選択では同じデータでオクターブ上誤り 0% を確認済み。
   let bestTau = -1;
-  for (let tau = minTau; tau < maxTau; tau++) {
-    if (cmnd[tau] < threshold) {
-      while (tau + 1 <= maxTau && cmnd[tau + 1] < cmnd[tau]) {
-        tau++;
-      }
+  let minVal = 999.0;
+  for (let tau = minTau; tau <= maxTau; tau++) {
+    if (cmnd[tau] < minVal) {
+      minVal = cmnd[tau];
       bestTau = tau;
-      break;
     }
   }
-
-  // Fallback to global minimum in search range if below 0.38
-  if (bestTau === -1) {
-    let minVal = 999.0;
-    for (let tau = minTau; tau <= maxTau; tau++) {
-      if (cmnd[tau] < minVal) {
-        minVal = cmnd[tau];
-        bestTau = tau;
-      }
-    }
-    if (minVal > 0.38) return { f0: 0, conf: 0 };
-  }
+  if (minVal > 0.38) return { f0: 0, conf: 0 };
 
   // 4. Parabolic interpolation
   const t0 = Math.max(minTau, bestTau - 1);
